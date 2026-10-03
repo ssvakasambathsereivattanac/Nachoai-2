@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+```
+<title>Progress - NachoAI</title>
+
+<link rel="stylesheet" href="style.css">
+```
+
+</head>
+
+<body>
+
+```
+<!-- NAVBAR -->
+<nav class="navbar">
+
+    <div class="logo">🧠 NachoAI</div>
+
+    <div class="nav-links">
+        <a href="index.html" data-i18n="home">Home</a>
+        <a href="dashboard.html" data-i18n="dashboard">Dashboard</a>
+        <a href="tutor.html" data-i18n="aiTutor">AI Tutor</a>
+        <a href="quiz.html" data-i18n="practiceQuiz">Practice Quiz</a>
+        <a href="progress.html" class="active" data-i18n="progress">
+            Progress
+        </a>
+    </div>
+
+    <!-- LANGUAGE SELECTOR -->
+    <select id="languageSelect" class="language-select">
+        <option value="en">🇬🇧 English</option>
+        <option value="km">🇰🇭 Khmer</option>
+        <option value="fr">🇫🇷 Français</option>
+    </select>
+
+</nav>
+
+
+<!-- HEADER -->
+<section class="page-header">
+
+    <h1 data-i18n="yourProgress">
+        📊 Your Progress
+    </h1>
+
+    <p data-i18n="trackProgress">
+        Track what you have learned and discover what you should practice next.
+    </p>
+
+</section>
+
+
+<!-- MAIN PROGRESS -->
+<section class="progress-container">
+
+    <div class="progress-card">
+
+        <h3 data-i18n="overallProgress">
+            Overall Progress
+        </h3>
+
+        <div class="big-progress">
+            <span id="overallPercent">0%</span>
+        </div>
+
+        <p id="overallText">
+            Start learning to build your progress!
+        </p>
+
+    </div>
+
+
+    <div class="progress-card">
+
+        <h3 data-i18n="quizzesCompleted">
+            Quizzes Completed
+        </h3>
+
+        <div class="stat-number" id="quizCount">
+            0
+        </div>
+
+        <p data-i18n="practiceMore">
+            Complete more quizzes to track your improvement.
+        </p>
+
+    </div>
+
+
+    <div class="progress-card">
+
+        <h3 data-i18n="averageScore">
+            Average Score
+        </h3>
+
+        <div class="stat-number" id="averageScore">
+            0%
+        </div>
+
+        <p data-i18n="averageQuizScore">
+            Your average quiz performance.
+        </p>
+
+    </div>
+
+</section>
+
+
+<!-- SUBJECT PROGRESS -->
+<section class="section-container">
+
+    <h2 data-i18n="subjectProgress">
+        📚 Subject Progress
+    </h2>
+
+    <div class="subject-grid">
+
+        <!-- MATH -->
+        <div class="subject-card">
+
+            <div class="subject-title">
+                <span>➗</span>
+
+                <h3 data-i18n="math">
+                    Math
+                </h3>
+            </div>
+
+            <div class="progress-bar">
+                <div
+                    id="mathProgress"
+                    class="progress-fill">
+                </div>
+            </div>
+
+            <p>
+                <span id="mathPercent">0%</span>
+                <span data-i18n="completed">
+                    completed
+                </span>
+            </p>
+
+        </div>
+
+
+        <!-- SCIENCE -->
+        <div class="subject-card">
+
+            <div class="subject-title">
+                <span>🔬</span>
+
+                <h3 data-i18n="science">
+                    Science
+                </h3>
+            </div>
+
+            <div class="progress-bar">
+                <div
+                    id="scienceProgress"
+                    class="progress-fill">
+                </div>
+            </div>
+
+            <p>
+                <span id="sciencePercent">0%</span>
+                <span data-i18n="completed">
+                    completed
+                </span>
+            </p>
+
+        </div>
+
+
+        <!-- ENGLISH -->
+        <div class="subject-card">
+
+            <div class="subject-title">
+                <span>📖</span>
+
+                <h3 data-i18n="english">
+                    English
+                </h3>
+            </div>
+
+            <div class="progress-bar">
+                <div
+                    id="englishProgress"
+                    class="progress-fill">
+                </div>
+            </div>
+
+            <p>
+                <span id="englishPercent">0%</span>
+                <span data-i18n="completed">
+                    completed
+                </span>
+            </p>
+
+        </div>
+
+
+        <!-- HISTORY -->
+        <div class="subject-card">
+
+            <div class="subject-title">
+                <span>🏛️</span>
+
+                <h3 data-i18n="history">
+                    History
+                </h3>
+            </div>
+
+            <div class="progress-bar">
+                <div
+                    id="historyProgress"
+                    class="progress-fill">
+                </div>
+            </div>
+
+            <p>
+                <span id="historyPercent">0%</span>
+                <span data-i18n="completed">
+                    completed
+                </span>
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- WEAK TOPICS -->
+<section class="section-container">
+
+    <h2 data-i18n="topicsToPractice">
+        🎯 Topics You Should Practice
+    </h2>
+
+    <div id="weakTopics" class="weak-topics">
+
+        <div class="empty-progress">
+
+            <span>🎉</span>
+
+            <p data-i18n="noWeakTopics">
+                Complete a quiz to discover topics you should practice.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- RECOMMENDATION -->
+<section class="recommendation-card">
+
+    <h2 data-i18n="keepLearning">
+        🚀 Keep Learning!
+    </h2>
+
+    <p data-i18n="learningRecommendation">
+        Practice the topics you struggle with and come back to check your progress.
+    </p>
+
+    <a
+        href="quiz.html"
+        class="primary-btn"
+        data-i18n="practiceQuiz">
+        Practice Quiz
+    </a>
+
+</section>
+
+
+<!-- FOOTER -->
+<footer>
+
+    <p>
+        © 2026 NachoAI. Learn smarter, improve faster.
+    </p>
+
+</footer>
+
+
+<!-- LANGUAGE SYSTEM -->
+<script src="language.js"></script>
+
+
+<!-- PROGRESS SYSTEM -->
+<script>
+
+    // Get saved quiz history
+    const quizHistory =
+        JSON.parse(localStorage.getItem("quizHistory")) || [];
+
+
+    // Get saved subject progress
+    const subjectProgress =
+        JSON.parse(localStorage.getItem("subjectProgress")) || {};
+
+
+    // Get saved weak topics
+    const weakTopics =
+        JSON.parse(localStorage.getItem("weakTopics")) || [];
+
+
+    // -------------------------
+    // QUIZ COUNT
+    // -------------------------
+
+    document.getElementById("quizCount").textContent =
+        quizHistory.length;
+
+
+    // -------------------------
+    // CALCULATE SCORE
+    // -------------------------
+
+    let totalScore = 0;
+    let totalQuestions = 0;
+
+    quizHistory.forEach(quiz => {
+
+        totalScore += Number(quiz.score) || 0;
+
+        totalQuestions += Number(quiz.total) || 0;
+
+    });
+
+
+    let average = 0;
+
+    if (totalQuestions > 0) {
+
+        average = Math.round(
+            (totalScore / totalQuestions) * 100
+        );
+
+    }
+
+
+    // -------------------------
+    // DISPLAY SCORE
+    // -------------------------
+
+    document.getElementById("averageScore").textContent =
+        average + "%";
+
+    document.getElementById("overallPercent").textContent =
+        average + "%";
+
+
+    // -------------------------
+    // PROGRESS MESSAGE
+    // -------------------------
+
+    const overallText =
+        document.getElementById("overallText");
+
+    if (average === 0) {
+
+        overallText.textContent =
+            "Start studying and take your first quiz!";
+
+    } else if (average < 50) {
+
+        overallText.textContent =
+            "Keep practicing. You can improve!";
+
+    } else if (average < 80) {
+
+        overallText.textContent =
+            "Good progress! Keep learning!";
+
+    } else {
+
+        overallText.textContent =
+            "Excellent work! Keep it up! 🎉";
+
+    }
+
+
+    // -------------------------
+    // SUBJECT PROGRESS
+    // -------------------------
+
+    function updateSubject(subject) {
+
+        const percent =
+            Number(subjectProgress[subject]) || 0;
+
+
+        const bar =
+            document.getElementById(
+                subject + "Progress"
+            );
+
+
+        const text =
+            document.getElementById(
+                subject + "Percent"
+            );
+
+
+        if (bar) {
+
+            bar.style.width =
+                Math.min(percent, 100) + "%";
+
+        }
+
+
+        if (text) {
+
+            text.textContent =
+                Math.min(percent, 100) + "%";
+
+        }
+
+    }
+
+
+    updateSubject("math");
+    updateSubject("science");
+    updateSubject("english");
+    updateSubject("history");
+
+
+    // -------------------------
+    // WEAK TOPICS
+    // -------------------------
+
+    const weakTopicsContainer =
+        document.getElementById("weakTopics");
+
+
+    if (weakTopics.length > 0) {
+
+        weakTopicsContainer.innerHTML = "";
+
+
+        weakTopics.forEach(topic => {
+
+            const topicElement =
+                document.createElement("div");
+
+
+            topicElement.className =
+                "weak-topic";
+
+
+            topicElement.innerHTML = `
+                <span>📚</span>
+                <strong>${topic}</strong>
+            `;
+
+
+            weakTopicsContainer.appendChild(
+                topicElement
+            );
+
+        });
+
+    }
+
+</script>
+```
+
+</body>
+</html>

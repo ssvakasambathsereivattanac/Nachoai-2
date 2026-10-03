@@ -1,0 +1,1282 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>NachoAI - Learn Smarter</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f8f9ff;
+            color: #172033;
+        }
+
+        /* =========================
+           NAVBAR
+        ========================= */
+
+        .navbar {
+            height: 75px;
+            padding: 0 7%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: white;
+            border-bottom: 1px solid #e8ebf2;
+            gap: 20px;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: #4f46e5;
+            font-size: 23px;
+            font-weight: bold;
+            white-space: nowrap;
+        }
+
+        /* Cheese next to NachoAI */
+
+        .cheese-mascot {
+            width: 35px;
+            height: 29px;
+            background: #ffcc33;
+            display: inline-block;
+            border-radius: 8px 8px 12px 12px;
+            position: relative;
+            transform: rotate(-5deg);
+            box-shadow: inset -4px -3px 0 #e8a91a;
+        }
+
+        .cheese-mascot::before {
+            content: "";
+            position: absolute;
+            width: 7px;
+            height: 7px;
+            background: #e8a91a;
+            border-radius: 50%;
+            top: 7px;
+            left: 8px;
+        }
+
+        .cheese-mascot::after {
+            content: "";
+            position: absolute;
+            width: 5px;
+            height: 5px;
+            background: #e8a91a;
+            border-radius: 50%;
+            bottom: 6px;
+            right: 7px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 25px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #596273;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .nav-links a:hover {
+            color: #4f46e5;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .language-select {
+            padding: 9px 12px;
+            border: 1px solid #dfe3eb;
+            border-radius: 9px;
+            background: white;
+            cursor: pointer;
+        }
+
+        .get-started {
+            text-decoration: none;
+            background: #4f46e5;
+            color: white;
+            padding: 11px 18px;
+            border-radius: 10px;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        /* =========================
+           HERO
+        ========================= */
+
+        .hero {
+            min-height: 650px;
+            padding: 85px 8%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 60px;
+            background: linear-gradient(135deg, #f8f9ff, #eef2ff);
+        }
+
+        .hero-text {
+            max-width: 600px;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 9px 15px;
+            background: white;
+            border: 1px solid #e1e5ff;
+            border-radius: 30px;
+            color: #4f46e5;
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .hero h1 {
+            font-size: 62px;
+            line-height: 1.05;
+            margin: 0 0 22px;
+        }
+
+        .hero h1 span {
+            color: #4f46e5;
+        }
+
+        .hero-text > p {
+            font-size: 18px;
+            line-height: 1.7;
+            color: #687184;
+            margin-bottom: 28px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 14px;
+            flex-wrap: wrap;
+        }
+
+        .primary-btn,
+        .secondary-btn {
+            display: inline-block;
+            text-decoration: none;
+            padding: 14px 21px;
+            border-radius: 11px;
+            font-weight: bold;
+        }
+
+        .primary-btn {
+            background: #4f46e5;
+            color: white;
+        }
+
+        .secondary-btn {
+            background: white;
+            color: #4f46e5;
+            border: 1px solid #dfe3f0;
+        }
+
+        /* =========================
+           HERO IMAGE
+        ========================= */
+
+        .hero-image {
+            width: 48%;
+            max-width: 560px;
+            border-radius: 25px;
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(50, 60, 100, 0.15);
+        }
+
+        .hero-image img {
+            width: 100%;
+            display: block;
+        }
+
+        /* =========================
+           SECTIONS
+        ========================= */
+
+        .section {
+            padding: 85px 8%;
+            background: white;
+        }
+
+        .section-title {
+            text-align: center;
+            max-width: 700px;
+            margin: auto;
+        }
+
+        .small-title {
+            color: #4f46e5;
+            font-size: 13px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+        }
+
+        .section-title h2 {
+            font-size: 38px;
+            margin: 0 0 15px;
+        }
+
+        .section-title h2 span {
+            color: #4f46e5;
+        }
+
+        .section-title p:last-child {
+            color: #737c8e;
+            line-height: 1.6;
+        }
+
+        /* =========================
+           FEATURE CARDS
+        ========================= */
+
+        .feature-grid {
+            margin-top: 50px;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+
+        .feature-card {
+            background: white;
+            border: 1px solid #e5e8ef;
+            border-radius: 17px;
+            padding: 25px;
+            transition: 0.2s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 30px rgba(50, 60, 100, 0.08);
+        }
+
+        .feature-image {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 12px;
+            margin-bottom: 18px;
+        }
+
+        .feature-icon {
+            font-size: 28px;
+            margin-bottom: 12px;
+        }
+
+        .feature-card h3 {
+            margin-bottom: 10px;
+        }
+
+        .feature-card p {
+            color: #737c8e;
+            line-height: 1.6;
+            font-size: 14px;
+        }
+
+        /* =========================
+           HOW IT WORKS
+        ========================= */
+
+        .steps {
+            margin-top: 50px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+        }
+
+        .step {
+            text-align: center;
+            padding: 25px;
+        }
+
+        .step-number {
+            width: 50px;
+            height: 50px;
+            margin: auto auto 15px;
+            border-radius: 50%;
+            background: #eef2ff;
+            color: #4f46e5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 20px;
+        }
+
+        .step p {
+            color: #737c8e;
+            line-height: 1.6;
+        }
+
+        /* =========================
+           SUBJECTS
+        ========================= */
+
+        .subjects {
+            background: #f8f9ff;
+        }
+
+        .subject-grid {
+            margin-top: 45px;
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 15px;
+        }
+
+        .subject {
+            background: white;
+            border: 1px solid #e5e8ef;
+            border-radius: 13px;
+            padding: 18px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        /* =========================
+           GRADES
+        ========================= */
+
+        .grades {
+            margin-top: 45px;
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 12px;
+        }
+
+        .grade {
+            background: white;
+            border: 1px solid #e2e5ec;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        /* =========================
+           QUIZ BANNER
+        ========================= */
+
+        .quiz-banner {
+            margin: 70px 8%;
+            padding: 45px;
+            border-radius: 22px;
+            background: linear-gradient(135deg, #4f46e5, #6366f1);
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .quiz-banner h2 {
+            margin: 0 0 10px;
+            font-size: 30px;
+        }
+
+        .quiz-banner p {
+            margin: 0;
+            opacity: 0.9;
+        }
+
+        .quiz-button {
+            text-decoration: none;
+            background: white;
+            color: #4f46e5;
+            padding: 14px 22px;
+            border-radius: 10px;
+            font-weight: bold;
+            white-space: nowrap;
+        }
+
+        /* =========================
+           CTA
+        ========================= */
+
+        .cta {
+            padding: 85px 8%;
+            text-align: center;
+            background: white;
+        }
+
+        .cta h2 {
+            font-size: 38px;
+            margin-bottom: 12px;
+        }
+
+        .cta p {
+            color: #737c8e;
+            margin-bottom: 25px;
+        }
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        footer {
+            padding: 45px 8%;
+            background: #111827;
+            color: white;
+        }
+
+        footer .brand {
+            color: white;
+        }
+
+        footer p {
+            color: #9ca3af;
+        }
+
+        .copyright {
+            font-size: 13px;
+        }
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 1000px) {
+
+            .nav-links {
+                display: none;
+            }
+
+            .hero {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .hero-image {
+                width: 100%;
+                max-width: 600px;
+            }
+
+            .hero-buttons {
+                justify-content: center;
+            }
+
+            .feature-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .subject-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .grades {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        @media (max-width: 600px) {
+
+            .navbar {
+                padding: 0 5%;
+            }
+
+            .get-started {
+                display: none;
+            }
+
+            .hero {
+                padding: 60px 6%;
+            }
+
+            .hero h1 {
+                font-size: 43px;
+            }
+
+            .feature-grid,
+            .steps {
+                grid-template-columns: 1fr;
+            }
+
+            .subject-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .grades {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .quiz-banner {
+                margin: 45px 6%;
+                padding: 30px;
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+
+    </style>
+</head>
+
+
+<body>
+
+    <!-- =========================
+         NAVIGATION
+    ========================= -->
+
+    <nav class="navbar">
+
+        <a href="index.html" class="brand">
+            <span class="cheese-mascot"></span>
+            <span>NachoAI</span>
+        </a>
+
+        <div class="nav-links">
+
+            <a href="index.html" data-i18n="home">
+                Home
+            </a>
+
+            <a href="dashboard.html" data-i18n="dashboard">
+                Dashboard
+            </a>
+
+            <a href="tutor.html" data-i18n="tutor">
+                AI Tutor
+            </a>
+
+            <a href="quiz.html" data-i18n="quiz">
+                Practice Quiz
+            </a>
+
+            <a href="progress.html" data-i18n="progress">
+                Progress
+            </a>
+
+        </div>
+
+        <div class="nav-right">
+
+            <select
+                id="languageSelect"
+                class="language-select"
+                aria-label="Language">
+
+                <option value="en">🇬🇧 English</option>
+                <option value="km">🇰🇭 ខ្មែរ</option>
+                <option value="fr">🇫🇷 Français</option>
+
+            </select>
+
+            <a
+                href="dashboard.html"
+                class="get-started"
+                data-i18n="getStarted">
+
+                Get Started
+
+            </a>
+
+        </div>
+
+    </nav>
+
+
+    <!-- =========================
+         HERO
+    ========================= -->
+
+    <section class="hero">
+
+        <div class="hero-text">
+
+            <div class="badge" data-i18n="schoolSmarter">
+                ✨ School just got smarter.
+            </div>
+
+            <h1>
+                <span data-i18n="heroTitleMain">
+                    Learn Smarter.
+                </span>
+
+                <br>
+
+                <span data-i18n="heroTitleSecond">
+                    Understand Better.
+                </span>
+            </h1>
+
+            <p data-i18n="heroTextFull">
+                NachoAI helps Grade 1–12 students understand difficult
+                topics, improve their weak areas, and practice what they learned.
+            </p>
+
+            <div class="hero-buttons">
+
+                <a
+                    href="dashboard.html"
+                    class="primary-btn"
+                    data-i18n="startLearning">
+
+                    Start Learning →
+
+                </a>
+
+                <a
+                    href="quiz.html"
+                    class="secondary-btn"
+                    data-i18n="practiceQuizButton">
+
+                    📝 Practice Quiz
+
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <div class="hero-image">
+
+            <img
+                src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=1000&q=85"
+                alt="Students learning">
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         FEATURES
+    ========================= -->
+
+    <section class="section">
+
+        <div class="section-title">
+
+            <p
+                class="small-title"
+                data-i18n="howItWorksSmall">
+
+                HOW IT WORKS
+
+            </p>
+
+            <h2 data-i18n="featureHeading">
+                A tutor that learns <span>with you.</span>
+            </h2>
+
+            <p data-i18n="featureDescription">
+                NachoAI finds the topics you struggle with and helps
+                you improve step by step.
+            </p>
+
+        </div>
+
+
+        <div class="feature-grid">
+
+
+            <div class="feature-card">
+
+                <img
+                    class="feature-image"
+                    src="https://images.unsplash.com/photo-1532012197267-da84d127e765?auto=format&fit=crop&w=900&q=85"
+                    alt="Student studying">
+
+                <div class="feature-icon">
+                    🎯
+                </div>
+
+                <h3 data-i18n="findWeakAreas">
+                    Find Your Weak Areas
+                </h3>
+
+                <p data-i18n="findWeakAreasFull">
+                    Your progress and quiz results help identify
+                    topics that need more practice.
+                </p>
+
+            </div>
+
+
+            <div class="feature-card">
+
+                <img
+                    class="feature-image"
+                    src="https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&w=900&q=85"
+                    alt="Student learning">
+
+                <div class="feature-icon">
+                    🤖
+                </div>
+
+                <h3 data-i18n="learnWithAI">
+                    Learn With AI
+                </h3>
+
+                <p data-i18n="learnWithAIFull">
+                    Get simple explanations, examples, and help
+                    whenever you need it.
+                </p>
+
+            </div>
+
+
+            <div class="feature-card">
+
+                <img
+                    class="feature-image"
+                    src="https://images.unsplash.com/photo-1453738773917-9c3eff1db985?auto=format&fit=crop&w=900&q=85"
+                    alt="Student taking notes">
+
+                <div class="feature-icon">
+                    📝
+                </div>
+
+                <h3 data-i18n="practiceQuizzes">
+                    Practice With Quizzes
+                </h3>
+
+                <p data-i18n="practiceQuizzesFull">
+                    After studying, choose a practice quiz to
+                    test how much you understand.
+                </p>
+
+            </div>
+
+
+            <div class="feature-card">
+
+                <div class="feature-icon">
+                    📈
+                </div>
+
+                <h3 data-i18n="trackProgress">
+                    Track Your Progress
+                </h3>
+
+                <p data-i18n="trackProgressFull">
+                    See your scores and watch your knowledge
+                    improve over time.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         HOW IT WORKS
+    ========================= -->
+
+    <section class="section">
+
+        <div class="section-title">
+
+            <p
+                class="small-title"
+                data-i18n="howItWorksSmall">
+
+                HOW IT WORKS
+
+            </p>
+
+            <h2 data-i18n="howItWorks">
+                How NachoAI Works
+            </h2>
+
+            <p data-i18n="howItWorksText">
+                Learn, practice, and improve with your personal
+                learning assistant.
+            </p>
+
+        </div>
+
+
+        <div class="steps">
+
+            <div class="step">
+
+                <div class="step-number">
+                    1
+                </div>
+
+                <h3 data-i18n="step1">
+                    Choose Your Grade
+                </h3>
+
+                <p data-i18n="step1Text">
+                    Select your grade from 1 to 12.
+                </p>
+
+            </div>
+
+
+            <div class="step">
+
+                <div class="step-number">
+                    2
+                </div>
+
+                <h3 data-i18n="step2">
+                    Learn With AI
+                </h3>
+
+                <p data-i18n="step2Text">
+                    Study difficult topics with simple
+                    explanations and examples.
+                </p>
+
+            </div>
+
+
+            <div class="step">
+
+                <div class="step-number">
+                    3
+                </div>
+
+                <h3 data-i18n="step3">
+                    Practice
+                </h3>
+
+                <p data-i18n="step3Text">
+                    Take a practice quiz when you are ready.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         SUBJECTS
+    ========================= -->
+
+    <section class="section subjects">
+
+        <div class="section-title">
+
+            <p
+                class="small-title"
+                data-i18n="subjectsSmall">
+
+                SUBJECTS
+
+            </p>
+
+            <h2 data-i18n="subjectsTitle">
+                Explore Subjects
+            </h2>
+
+            <p data-i18n="subjectsText">
+                Choose from a wide range of subjects and start learning.
+            </p>
+
+        </div>
+
+
+        <div class="subject-grid">
+
+            <div class="subject" data-i18n="mathematics">
+                Mathematics
+            </div>
+
+            <div class="subject" data-i18n="science">
+                Science
+            </div>
+
+            <div class="subject" data-i18n="english">
+                English
+            </div>
+
+            <div class="subject" data-i18n="history">
+                History
+            </div>
+
+            <div class="subject" data-i18n="geography">
+                Geography
+            </div>
+
+            <div class="subject" data-i18n="computerScience">
+                Computer Science
+            </div>
+
+            <div class="subject" data-i18n="chemistry">
+                Chemistry
+            </div>
+
+            <div class="subject" data-i18n="biology">
+                Biology
+            </div>
+
+            <div class="subject" data-i18n="physics">
+                Physics
+            </div>
+
+            <div class="subject" data-i18n="economics">
+                Economics
+            </div>
+
+            <div class="subject" data-i18n="business">
+                Business
+            </div>
+
+            <div class="subject" data-i18n="art">
+                Art
+            </div>
+
+            <div class="subject" data-i18n="music">
+                Music
+            </div>
+
+            <div class="subject" data-i18n="physicalEducation">
+                Physical Education
+            </div>
+
+            <div class="subject" data-i18n="languages">
+                Languages
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         GRADES
+    ========================= -->
+
+    <section class="section">
+
+        <div class="section-title">
+
+            <p
+                class="small-title"
+                data-i18n="gradesSmall">
+
+                FOR EVERY STUDENT
+
+            </p>
+
+            <h2>
+                <span data-i18n="fromGrade">
+                    From
+                </span>
+
+                <span data-i18n="gradeRange">
+                    Grade 1 to Grade 12
+                </span>
+            </h2>
+
+            <p data-i18n="gradeDescription">
+                Choose your grade and learn subjects at the right level.
+            </p>
+
+        </div>
+
+
+        <div class="grades">
+
+            <div class="grade">Grade 1</div>
+            <div class="grade">Grade 2</div>
+            <div class="grade">Grade 3</div>
+            <div class="grade">Grade 4</div>
+            <div class="grade">Grade 5</div>
+            <div class="grade">Grade 6</div>
+            <div class="grade">Grade 7</div>
+            <div class="grade">Grade 8</div>
+            <div class="grade">Grade 9</div>
+            <div class="grade">Grade 10</div>
+            <div class="grade">Grade 11</div>
+            <div class="grade">Grade 12</div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         QUIZ BANNER
+    ========================= -->
+
+    <section class="quiz-banner">
+
+        <div>
+
+            <h2 data-i18n="quizBannerTitle">
+                Ready to test yourself?
+            </h2>
+
+            <p data-i18n="quizBannerText">
+                Choose a subject and see what you know.
+            </p>
+
+        </div>
+
+        <a
+            href="quiz.html"
+            class="quiz-button"
+            data-i18n="takeQuiz">
+
+            Take a Quiz
+
+        </a>
+
+    </section>
+
+
+    <!-- =========================
+         CTA
+    ========================= -->
+
+    <section class="cta">
+
+        <h2 data-i18n="ctaTitle">
+            Start Learning With NachoAI
+        </h2>
+
+        <p data-i18n="ctaText">
+            Build your knowledge, practice your skills,
+            and learn at your own pace.
+        </p>
+
+        <a
+            href="dashboard.html"
+            class="primary-btn"
+            data-i18n="startLearning">
+
+            Start Learning →
+
+        </a>
+
+    </section>
+
+
+    <!-- =========================
+         FOOTER
+    ========================= -->
+
+    <footer>
+
+        <a href="index.html" class="brand">
+
+            <span class="cheese-mascot"></span>
+
+            <span>NachoAI</span>
+
+        </a>
+
+        <p data-i18n="footerText">
+            Learn smarter. Understand better.
+        </p>
+
+        <p class="copyright">
+            © 2026 NachoAI.
+            <span data-i18n="copyrightText">
+                All rights reserved.
+            </span>
+        </p>
+
+    </footer>
+
+
+    <!-- =========================
+         LANGUAGE SYSTEM
+    ========================= -->
+
+    <script src="language.js"></script>
+
+
+    <!-- Extra homepage translations -->
+    <script>
+
+        const homepageTranslations = {
+
+            en: {
+                schoolSmarter: "✨ School just got smarter.",
+                heroTitleMain: "Learn Smarter.",
+                heroTitleSecond: "Understand Better.",
+                heroTextFull: "NachoAI helps Grade 1–12 students understand difficult topics, improve their weak areas, and practice what they learned.",
+                practiceQuizButton: "📝 Practice Quiz",
+
+                howItWorksSmall: "HOW IT WORKS",
+                featureHeading: "A tutor that learns with you.",
+                featureDescription: "NachoAI finds the topics you struggle with and helps you improve step by step.",
+
+                findWeakAreasFull: "Your progress and quiz results help identify topics that need more practice.",
+                learnWithAIFull: "Get simple explanations, examples, and help whenever you need it.",
+                practiceQuizzesFull: "After studying, choose a practice quiz to test how much you understand.",
+                trackProgressFull: "See your scores and watch your knowledge improve over time.",
+
+                subjectsSmall: "SUBJECTS",
+                gradesSmall: "FOR EVERY STUDENT",
+                fromGrade: "From",
+                gradeRange: "Grade 1 to Grade 12",
+                gradeDescription: "Choose your grade and learn subjects at the right level.",
+
+                quizBannerTitle: "Ready to test yourself?",
+                quizBannerText: "Choose a subject and see what you know.",
+                takeQuiz: "Take a Quiz",
+
+                ctaTitle: "Start Learning With NachoAI",
+                ctaText: "Build your knowledge, practice your skills, and learn at your own pace.",
+
+                footerText: "Learn smarter. Understand better.",
+                copyrightText: "All rights reserved."
+            },
+
+            km: {
+                schoolSmarter: "✨ ការសិក្សាកាន់តែឆ្លាតវៃ។",
+                heroTitleMain: "រៀនឱ្យឆ្លាតវៃ។",
+                heroTitleSecond: "យល់ឱ្យកាន់តែច្បាស់។",
+                heroTextFull: "NachoAI ជួយសិស្សថ្នាក់ទី ១ ដល់ ១២ ឱ្យយល់ពីប្រធានបទដែលពិបាក កែលម្អចំណុចខ្សោយ និងហាត់អ្វីដែលបានរៀន។",
+                practiceQuizButton: "📝 លំហាត់សាកល្បង",
+
+                howItWorksSmall: "របៀបដំណើរការ",
+                featureHeading: "គ្រូដែលរៀនជាមួយអ្នក។",
+                featureDescription: "NachoAI ស្វែងរកប្រធានបទដែលអ្នកពិបាក ហើយជួយអ្នកកែលម្អជំហានម្តងៗ។",
+
+                findWeakAreasFull: "វឌ្ឍនភាព និងលទ្ធផលលំហាត់របស់អ្នកជួយស្វែងរកប្រធានបទដែលត្រូវហាត់បន្ថែម។",
+                learnWithAIFull: "ទទួលបានការពន្យល់សាមញ្ញ ឧទាហរណ៍ និងជំនួយនៅពេលអ្នកត្រូវការ។",
+                practiceQuizzesFull: "បន្ទាប់ពីរៀនរួច ជ្រើសរើសលំហាត់សាកល្បង ដើម្បីសាកល្បងចំណេះដឹងរបស់អ្នក។",
+                trackProgressFull: "មើលពិន្ទុរបស់អ្នក និងមើលការរីកចម្រើននៃចំណេះដឹងរបស់អ្នក។",
+
+                subjectsSmall: "មុខវិជ្ជា",
+                gradesSmall: "សម្រាប់សិស្សគ្រប់រូប",
+                fromGrade: "ចាប់ពី",
+                gradeRange: "ថ្នាក់ទី ១ ដល់ ១២",
+                gradeDescription: "ជ្រើសរើសថ្នាក់របស់អ្នក ហើយរៀនមុខវិជ្ជាតាមកម្រិតសមស្រប។",
+
+                quizBannerTitle: "ត្រៀមខ្លួនសាកល្បងចំណេះដឹងរបស់អ្នកហើយឬនៅ?",
+                quizBannerText: "ជ្រើសរើសមុខវិជ្ជា ហើយមើលថាអ្នកចេះបានប៉ុណ្ណា។",
+                takeQuiz: "ធ្វើលំហាត់",
+
+                ctaTitle: "ចាប់ផ្តើមរៀនជាមួយ NachoAI",
+                ctaText: "បង្កើនចំណេះដឹង ហាត់ជំនាញ និងរៀនតាមល្បឿនរបស់អ្នក។",
+
+                footerText: "រៀនឱ្យឆ្លាតវៃ។ យល់ឱ្យកាន់តែច្បាស់។",
+                copyrightText: "រក្សាសិទ្ធិគ្រប់យ៉ាង។"
+            },
+
+            fr: {
+                schoolSmarter: "✨ L'école devient plus intelligente.",
+                heroTitleMain: "Apprenez plus intelligemment.",
+                heroTitleSecond: "Comprenez mieux.",
+                heroTextFull: "NachoAI aide les élèves de la 1re à la 12e à comprendre les sujets difficiles, améliorer leurs points faibles et pratiquer ce qu'ils ont appris.",
+                practiceQuizButton: "📝 Quiz",
+
+                howItWorksSmall: "COMMENT ÇA MARCHE",
+                featureHeading: "Un tuteur qui apprend avec vous.",
+                featureDescription: "NachoAI trouve les sujets qui vous posent problème et vous aide à progresser étape par étape.",
+
+                findWeakAreasFull: "Vos progrès et vos résultats aux quiz permettent d'identifier les sujets qui nécessitent plus de pratique.",
+                learnWithAIFull: "Obtenez des explications simples, des exemples et de l'aide quand vous en avez besoin.",
+                practiceQuizzesFull: "Après avoir étudié, choisissez un quiz pour tester votre compréhension.",
+                trackProgressFull: "Consultez vos scores et observez l'amélioration de vos connaissances.",
+
+                subjectsSmall: "MATIÈRES",
+                gradesSmall: "POUR TOUS LES ÉLÈVES",
+                fromGrade: "De la",
+                gradeRange: "1re à la 12e",
+                gradeDescription: "Choisissez votre classe et apprenez les matières au niveau qui vous convient.",
+
+                quizBannerTitle: "Prêt à vous tester ?",
+                quizBannerText: "Choisissez une matière et découvrez ce que vous savez.",
+                takeQuiz: "Faire un quiz",
+
+                ctaTitle: "Commencez à apprendre avec NachoAI",
+                ctaText: "Développez vos connaissances, pratiquez vos compétences et apprenez à votre rythme.",
+
+                footerText: "Apprenez plus intelligemment. Comprenez mieux.",
+                copyrightText: "Tous droits réservés."
+            }
+
+        };
+
+
+        function applyHomepageLanguage() {
+
+            const language =
+                localStorage.getItem("aitutorLanguage") || "en";
+
+            const words =
+                homepageTranslations[language] ||
+                homepageTranslations.en;
+
+            document
+                .querySelectorAll("[data-i18n]")
+                .forEach(element => {
+
+                    const key =
+                        element.getAttribute("data-i18n");
+
+                    if (words[key]) {
+                        element.textContent = words[key];
+                    }
+
+                });
+
+        }
+
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            () => {
+
+                applyHomepageLanguage();
+
+                const languageSelect =
+                    document.getElementById("languageSelect");
+
+                if (languageSelect) {
+
+                    languageSelect.addEventListener(
+                        "change",
+                        () => {
+
+                            setTimeout(
+                                applyHomepageLanguage,
+                                0
+                            );
+
+                        }
+                    );
+
+                }
+
+                document.addEventListener(
+                    "nachoLanguageChanged",
+                    applyHomepageLanguage
+                );
+
+            }
+        );
+
+    </script>
+
+</body>
+</html>

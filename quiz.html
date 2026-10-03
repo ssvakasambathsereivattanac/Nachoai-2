@@ -1,0 +1,740 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Practice Quiz | NachoAI</title>
+<style>
+:root {
+  --bg: #f6f4ff;
+  --card: #ffffff;
+  --text: #242039;
+  --muted: #77738b;
+  --accent: #7655e8;
+  --border: #e7e1fa;
+  --correct: #16865b;
+  --wrong: #d63e55;
+}
+body.dark {
+  --bg: #151321;
+  --card: #211e31;
+  --text: #f5f2ff;
+  --muted: #b5aecb;
+  --accent: #a18aff;
+  --border: #39334e;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: Arial, sans-serif;
+  transition: background .2s, color .2s;
+}
+nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding: 16px 6%;
+  background: var(--card);
+  border-bottom: 1px solid var(--border);
+}
+.brand { font-size: 22px; font-weight: 800; color: var(--accent); }
+.navlinks { display: flex; gap: 18px; flex-wrap: wrap; }
+a { color: var(--text); text-decoration: none; }
+a:hover { color: var(--accent); }
+select, button {
+  font: inherit;
+  border-radius: 10px;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  background: var(--card);
+  color: var(--text);
+  cursor: pointer;
+}
+main { max-width: 850px; margin: 35px auto; padding: 0 18px 50px; }
+h1 { margin-bottom: 8px; }
+.subtitle { color: var(--muted); margin-top: 0; }
+.settings, .quiz-card, .result-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 22px;
+  margin-top: 20px;
+}
+.settings { display: grid; grid-template-columns: repeat(auto-fit,minmax(170px,1fr)); gap: 16px; }
+.field { display: flex; flex-direction: column; gap: 8px; }
+.primary {
+  background: var(--accent);
+  color: white;
+  border: none;
+  font-weight: 700;
+}
+.primary:hover { opacity: .9; }
+#question { font-size: 21px; line-height: 1.5; margin: 18px 0; }
+.option {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 14px;
+  margin: 10px 0;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--bg);
+  color: var(--text);
+}
+.option:hover:not(:disabled) { border-color: var(--accent); }
+.option.correct { border-color: var(--correct); background: #16865b18; }
+.option.wrong { border-color: var(--wrong); background: #d63e5518; }
+.option:disabled { cursor: default; opacity: 1; }
+.topline { display: flex; justify-content: space-between; gap: 12px; color: var(--muted); flex-wrap: wrap; }
+#feedback { margin: 16px 0; font-weight: 700; }
+.correct-text { color: var(--correct); }
+.wrong-text { color: var(--wrong); }
+.actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 20px; }
+.hidden { display: none !important; }
+#resultScore { font-size: 38px; font-weight: 800; color: var(--accent); }
+.small { color: var(--muted); font-size: 14px; }
+footer { text-align: center; padding: 25px; color: var(--muted); }
+</style>
+</head>
+<body>
+<nav>
+  <div class="brand">🧀 NachoAI</div>
+  <div class="navlinks">
+    <a href="index.html" data-i="home">Home</a>
+    <a href="dashboard.html" data-i="dashboard">Dashboard</a>
+    <a href="tutor.html" data-i="tutor">AI Tutor</a>
+    <a href="quiz.html" data-i="quiz">Practice Quiz</a>
+    <a href="progress.html" data-i="progress">Progress</a>
+  </div>
+  <div>
+    <select id="language" aria-label="Language">
+      <option value="en">🇬🇧 English</option>
+      <option value="km">🇰🇭 ខ្មែរ</option>
+      <option value="fr">🇫🇷 Français</option>
+    </select>
+    <button id="themeBtn" type="button" aria-label="Toggle dark mode">🌙</button>
+  </div>
+</nav>
+
+<main>
+  <h1 data-i="heading">Practice Quiz 🎯</h1>
+  <p class="subtitle" data-i="subtitle">Test what you've learned. Each quiz uses a fresh mix of questions.</p>
+
+  <section class="settings" id="settings">
+    <label class="field">
+      <span data-i="grade">Grade</span>
+      <select id="grade">
+        <option value="1">Grade 1</option><option value="2">Grade 2</option>
+        <option value="3">Grade 3</option><option value="4">Grade 4</option>
+        <option value="5">Grade 5</option><option value="6">Grade 6</option>
+        <option value="7">Grade 7</option><option value="8" selected>Grade 8</option>
+        <option value="9">Grade 9</option><option value="10">Grade 10</option>
+        <option value="11">Grade 11</option><option value="12">Grade 12</option>
+      </select>
+    </label>
+    <label class="field">
+      <span data-i="subject">Subject</span>
+      <select id="subject">
+        <option value="math">Mathematics</option>
+        <option value="science">Science</option>
+        <option value="english">English</option>
+        <option value="history">History</option>
+        <option value="geography">Geography</option>
+        <option value="biology">Biology</option>
+        <option value="chemistry">Chemistry</option>
+        <option value="physics">Physics</option>
+        <option value="computer">Computer Science</option>
+      </select>
+    </label>
+    <label class="field">
+      <span data-i="count">Questions</span>
+      <select id="count">
+        <option value="5">5</option>
+        <option value="10" selected>10</option>
+        <option value="15">15</option>
+      </select>
+    </label>
+    <div class="field" style="justify-content:end">
+      <button class="primary" id="startBtn" type="button" data-i="start">Generate Quiz 🚀</button>
+    </div>
+  </section>
+
+  <section class="quiz-card hidden" id="quizCard">
+    <div class="topline">
+      <span id="questionCount"></span>
+      <span id="scoreLabel"></span>
+    </div>
+    <div id="question"></div>
+    <div id="options"></div>
+    <div id="feedback" aria-live="polite"></div>
+    <div class="actions">
+      <button class="primary hidden" id="nextBtn" type="button" data-i="next">Next question →</button>
+      <button id="quitBtn" type="button" data-i="quit">End quiz</button>
+    </div>
+  </section>
+
+  <section class="result-card hidden" id="resultCard" aria-live="polite">
+    <h2 data-i="finished">Quiz complete! 🎉</h2>
+    <div id="resultScore"></div>
+    <p id="resultMessage"></p>
+    <p class="small" id="resultDetails"></p>
+    <div class="actions">
+      <button class="primary" id="againBtn" type="button" data-i="again">Generate another quiz 🔄</button>
+      <button id="settingsBtn" type="button" data-i="change">Change settings</button>
+    </div>
+  </section>
+</main>
+<footer>🧀 NachoAI — <span data-i="footer">Learn smarter. Understand better.</span></footer>
+
+<script>
+(function () {
+"use strict";
+
+const $ = id => document.getElementById(id);
+
+const translations = {
+  en: {
+    home:"Home", dashboard:"Dashboard", tutor:"AI Tutor", quiz:"Practice Quiz", progress:"Progress",
+    heading:"Practice Quiz 🎯", subtitle:"Test what you've learned. Each quiz uses a fresh mix of questions.",
+    grade:"Grade", subject:"Subject", count:"Questions", start:"Generate Quiz 🚀",
+    next:"Next question →", quit:"End quiz", finished:"Quiz complete! 🎉",
+    again:"Generate another quiz 🔄", change:"Change settings", footer:"Learn smarter. Understand better.",
+    correct:"Correct! 🎉", wrong:"Not quite. The correct answer is:", nextTip:"Choose an answer to continue.",
+    score:"Score", question:"Question", outOf:"out of", perfect:"Excellent work! 🌟",
+    good:"Nice work! Keep practicing. 💪", tryAgain:"Keep learning — practice makes progress! 📚",
+    result:"You scored", noQuestions:"No questions are available for this combination yet.",
+    ended:"Quiz ended.", gradeLabel:"Grade", empty:"Generate a quiz to get started."
+  },
+  km: {
+    home:"ទំព័រដើម", dashboard:"ផ្ទាំងគ្រប់គ្រង", tutor:"គ្រូ AI", quiz:"សំណួរអនុវត្ត", progress:"វឌ្ឍនភាព",
+    heading:"សំណួរអនុវត្ត 🎯", subtitle:"សាកល្បងចំណេះដឹងរបស់អ្នក។ សំណួរនឹងត្រូវបានចៃដន្យ។",
+    grade:"ថ្នាក់", subject:"មុខវិជ្ជា", count:"ចំនួនសំណួរ", start:"បង្កើតសំណួរ 🚀",
+    next:"សំណួរបន្ទាប់ →", quit:"បញ្ចប់", finished:"បានបញ្ចប់សំណួរ! 🎉",
+    again:"បង្កើតសំណួរថ្មី 🔄", change:"ប្តូរការកំណត់", footer:"រៀនឱ្យឆ្លាត យល់ឱ្យកាន់តែច្បាស់។",
+    correct:"ត្រឹមត្រូវ! 🎉", wrong:"មិនទាន់ត្រឹមត្រូវទេ។ ចម្លើយត្រឹមត្រូវគឺ៖", nextTip:"ជ្រើសរើសចម្លើយដើម្បីបន្ត។",
+    score:"ពិន្ទុ", question:"សំណួរ", outOf:"ក្នុងចំណោម", perfect:"អស្ចារ្យណាស់! 🌟",
+    good:"ល្អណាស់! បន្តអនុវត្ត។ 💪", tryAgain:"បន្តរៀន និងអនុវត្ត! 📚",
+    result:"អ្នកទទួលបាន", noQuestions:"មិនមានសំណួរសម្រាប់ជម្រើសនេះទេ។",
+    ended:"សំណួរត្រូវបានបញ្ចប់។", gradeLabel:"ថ្នាក់", empty:"បង្កើតសំណួរដើម្បីចាប់ផ្តើម។"
+  },
+  fr: {
+    home:"Accueil", dashboard:"Tableau de bord", tutor:"Tuteur IA", quiz:"Quiz pratique", progress:"Progression",
+    heading:"Quiz pratique 🎯", subtitle:"Testez vos connaissances avec des questions aléatoires.",
+    grade:"Classe", subject:"Matière", count:"Questions", start:"Générer un quiz 🚀",
+    next:"Question suivante →", quit:"Terminer", finished:"Quiz terminé ! 🎉",
+    again:"Nouveau quiz 🔄", change:"Modifier les paramètres", footer:"Apprenez mieux. Comprenez davantage.",
+    correct:"Bonne réponse ! 🎉", wrong:"Pas tout à fait. La bonne réponse est :",
+    nextTip:"Choisissez une réponse pour continuer.", score:"Score", question:"Question",
+    outOf:"sur", perfect:"Excellent travail ! 🌟", good:"Bien joué ! Continuez ! 💪",
+    tryAgain:"Continuez à apprendre et à pratiquer ! 📚", result:"Vous avez obtenu",
+    noQuestions:"Aucune question n'est disponible pour cette combinaison.",
+    ended:"Quiz terminé.", gradeLabel:"Classe", empty:"Générez un quiz pour commencer."
+  }
+};
+
+let lang = "en";
+let questions = [];
+let index = 0;
+let score = 0;
+let answered = false;
+
+const banks = {
+  math: {
+    easy: [
+      ["What is 2 + 3?",["4","5","6","7"],1],
+      ["What is 8 - 3?",["4","5","6","7"],1],
+      ["What is 4 × 2?",["6","8","10","12"],1],
+      ["What is 12 ÷ 3?",["3","4","5","6"],1],
+      ["Which number is even?",["3","5","8","9"],2],
+      ["What is 10 + 6?",["14","15","16","17"],2],
+      ["What is half of 10?",["2","4","5","6"],2],
+      ["How many sides does a triangle have?",["2","3","4","5"],1],
+      ["What is 15 - 7?",["6","7","8","9"],2],
+      ["What is 5 × 5?",["10","20","25","30"],2]
+    ],
+    medium: [
+      ["What is 7 × 8?",["48","54","56","64"],2],
+      ["What is 144 ÷ 12?",["10","11","12","14"],2],
+      ["What is 25% of 80?",["10","15","20","25"],2],
+      ["Solve: 3x = 21.",["5","6","7","8"],2],
+      ["What is the area of a 6 × 4 rectangle?",["10","20","24","28"],2],
+      ["What is 3/4 of 20?",["10","12","15","18"],2],
+      ["What is 2³?",["4","6","8","9"],2],
+      ["What is the perimeter of a square with side 5?",["10","15","20","25"],2],
+      ["What is 1.5 + 2.7?",["3.2","4.2","4.7","5.2"],1],
+      ["What is the mean of 4, 6, and 8?",["5","6","7","8"],1]
+    ],
+    hard: [
+      ["Solve: 2x + 5 = 17.",["5","6","7","8"],1],
+      ["What is √169?",["11","12","13","14"],2],
+      ["Factor x² - 9.",["(x-9)(x+1)","(x-3)(x+3)","(x-3)²","x(x-9)"],1],
+      ["What is the slope between (0,1) and (2,5)?",["1","2","3","4"],1],
+      ["What is 2⁵ × 2²?",["2⁷","4⁷","2¹⁰","2³"],0],
+      ["Solve: x² = 49. What are the solutions?",["7 only","-7 only","±7","49"],2],
+      ["What is 15% of 240?",["24","30","36","40"],2],
+      ["Simplify: 3(2x - 4).",["6x - 4","6x - 12","5x - 12","6x + 12"],1],
+      ["What is the probability of rolling a 6 on a fair die?",["1/2","1/3","1/6","1/12"],2],
+      ["What is the sum of angles in a triangle?",["90°","180°","270°","360°"],1]
+    ]
+  },
+  science: {
+    easy: [
+      ["Which planet do we live on?",["Mars","Earth","Venus","Jupiter"],1],
+      ["What do plants need for photosynthesis?",["Sunlight","Plastic","Sand only","Metal"],0],
+      ["Which is a state of matter?",["Wood","Light","Liquid","Sound"],2],
+      ["What organ pumps blood?",["Lung","Heart","Brain","Stomach"],1],
+      ["What gas do humans breathe in to survive?",["Helium","Oxygen","Carbon dioxide","Hydrogen"],1],
+      ["What is Earth's natural satellite?",["Sun","Mars","Moon","Venus"],2],
+      ["Which animal is a mammal?",["Frog","Shark","Dolphin","Lizard"],2],
+      ["What force pulls objects toward Earth?",["Friction","Gravity","Magnetism","Sound"],1],
+      ["What do bees collect from flowers?",["Rocks","Nectar","Soil","Leaves only"],1],
+      ["Which material is usually transparent?",["Glass","Brick","Wood","Iron"],0]
+    ],
+    medium: [
+      ["What is the chemical formula for water?",["CO₂","O₂","H₂O","NaCl"],2],
+      ["Which gas do plants absorb?",["Oxygen","Carbon dioxide","Helium","Hydrogen"],1],
+      ["What is the basic unit of life?",["Atom","Organ","Cell","Tissue"],2],
+      ["Which part of a cell contains most DNA?",["Nucleus","Cell wall","Cytoplasm","Membrane"],0],
+      ["What is the SI unit of force?",["Joule","Watt","Newton","Pascal"],2],
+      ["Which planet is known as the Red Planet?",["Venus","Mars","Saturn","Mercury"],1],
+      ["What type of energy does a moving object have?",["Kinetic","Chemical","Nuclear","Stored only"],0],
+      ["Which organ helps humans breathe?",["Kidney","Lung","Liver","Pancreas"],1],
+      ["What is the boiling point of water at sea level?",["50°C","75°C","100°C","150°C"],2],
+      ["Which is a renewable energy source?",["Coal","Oil","Solar","Natural gas"],2]
+    ],
+    hard: [
+      ["Which organelle produces most cellular ATP?",["Ribosome","Mitochondrion","Golgi body","Nucleus"],1],
+      ["What is the approximate speed of light in a vacuum?",["3 × 10⁶ m/s","3 × 10⁸ m/s","3 × 10¹⁰ m/s","300 m/s"],1],
+      ["A solution with pH 3 is:",["Neutral","Basic","Acidic","Always pure water"],2],
+      ["What is Newton's second law?",["F = ma","E = mc","V = IR²","P = m/v"],0],
+      ["Which molecule carries genetic information?",["ATP","DNA","Glucose","Lipid"],1],
+      ["What is the main gas in Earth's atmosphere?",["Oxygen","Carbon dioxide","Nitrogen","Hydrogen"],2],
+      ["What process produces gametes?",["Mitosis","Meiosis","Diffusion","Photosynthesis"],1],
+      ["Which bond involves sharing electron pairs?",["Ionic","Covalent","Metallic only","Hydrogen only"],1],
+      ["What is the SI unit of electrical resistance?",["Volt","Ampere","Ohm","Watt"],2],
+      ["What happens to frequency if wavelength decreases while wave speed stays constant?",["It decreases","It increases","It stays zero","It disappears"],1]
+    ]
+  },
+  english: {
+    easy: [
+      ["Choose the correct plural of 'child'.",["Childs","Children","Childes","Childrens"],1],
+      ["Which word is a noun?",["Quickly","Happy","Teacher","Run"],2],
+      ["Choose the opposite of 'hot'.",["Warm","Cold","Dry","Bright"],1],
+      ["Which sentence is correct?",["She are happy.","She is happy.","She be happy.","She am happy."],1],
+      ["What is the past tense of 'go'?",["Goed","Gone","Went","Going"],2],
+      ["Which word is an adjective?",["Beautiful","Swim","Slowly","Table"],0],
+      ["Choose the correct article: ___ apple.",["A","An","Thee","No article ever"],1],
+      ["Which word means the same as 'big'?",["Tiny","Large","Weak","Short"],1],
+      ["What punctuation ends a question?",["Comma", "Period", "Question mark", "Colon"],2],
+      ["Which is a pronoun?",["Maria","They","School","Blue"],1]
+    ],
+    medium: [
+      ["Choose the correct sentence.",["He don't like tea.","He doesn't like tea.","He doesn't likes tea.","He not like tea."],1],
+      ["What is a synonym for 'rapid'?",["Slow","Fast","Quiet","Late"],1],
+      ["Identify the verb: 'Birds fly south.'",["Birds","Fly","South","The"],1],
+      ["Choose the correct past tense.",["I have saw it.","I have seen it.","I has seen it.","I seen it have."],1],
+      ["What is an antonym of 'generous'?",["Kind","Giving","Selfish","Helpful"],2],
+      ["Which sentence uses a comma correctly?",["After lunch, we studied.","After, lunch we studied.","After lunch we, studied.","After lunch we studied,"],0],
+      ["What is the plural of 'analysis'?",["Analysises","Analyses","Analysis","Analys"],1],
+      ["Which word is an adverb?",["Careful","Carefully","Carefulness","Care"],1],
+      ["Choose the correct form: 'If I ___ time, I would help.'",["have","had","will have","has"],1],
+      ["What is the main purpose of a topic sentence?",["Introduce the paragraph's main idea","List every source","End the entire essay","Give a title only"],0]
+    ],
+    hard: [
+      ["Choose the grammatically correct sentence.",["Neither answer are right.","Neither answer is right.","Neither answers is right.","Neither are answer right."],1],
+      ["What does 'ambiguous' mean?",["Completely clear","Having more than one possible meaning","Very loud","Unimportant"],1],
+      ["Which is a metaphor?",["As cold as ice","The classroom was a zoo","Like a bird","Runs quickly"],1],
+      ["Choose the correct word: 'The evidence ___ convincing.'",["are","were","is","have"],2],
+      ["What is the function of a semicolon?",["Join closely related independent clauses","End every paragraph","Show possession","Introduce a list only"],0],
+      ["Which is passive voice?",["The cat chased the mouse.","The mouse was chased by the cat.","The cat is chasing.","The cat chases mice."],1],
+      ["What is an inference?",["A directly copied fact","A conclusion drawn from evidence","A book title","A spelling rule"],1],
+      ["Which word means 'brief and clear'?",["Concise","Vague","Verbose","Complex"],0],
+      ["What is the tone of a text?",["The author's attitude","The number of pages","The font size","The setting only"],0],
+      ["Which sentence uses a conditional correctly?",["If I had known, I would have called.","If I know, I would called.","If I had know, I call.","If I would know, I had called."],0]
+    ]
+  },
+  history: {
+    easy: [
+      ["What do historians study?",["Only planets","The human past","Weather only","Future predictions"],1],
+      ["Which tool helps archaeologists study the past?",["Excavation","Microscope only","Telescope only","Calculator only"],0],
+      ["What is a timeline used for?",["Showing events in order","Measuring temperature","Drawing maps only","Counting money"],0],
+      ["Which is a primary source?",["A diary written during an event","A modern textbook summary","A recent movie review","A fictional story"],0],
+      ["What is an ancient civilization?",["A past organized society","A new smartphone","A weather pattern","A type of rock"],0],
+      ["Which invention helped spread books widely?",["Printing press","Steam iron","Compass only","Telephone"],0],
+      ["What is an artifact?",["An object made or used by people","A cloud","A river","A planet"],0],
+      ["What does a map show?",["Places and locations","Only emotions","Only dates","Only languages"],0],
+      ["Why do historians compare sources?",["To evaluate evidence","To make time go faster","To avoid reading","To erase events"],0],
+      ["What is an empire?",["A state ruling multiple peoples or territories","A single house","A farming tool","A small river"],0]
+    ],
+    medium: [
+      ["Which civilization developed along the Nile?",["Roman","Ancient Egyptian","Mayan","Viking"],1],
+      ["What was the Silk Road?",["A network of trade routes","A single river","A Roman law","A type of weapon"],0],
+      ["Which ancient society built Angkor Wat?",["Khmer Empire","Mongol Empire","Inca Empire","Persian Empire"],0],
+      ["What is democracy?",["Rule by citizens, directly or through representatives","Rule by one hereditary king only","Military rule only","Rule by merchants only"],0],
+      ["What was the Renaissance?",["A period of renewed interest in arts and learning in Europe","A type of ancient ship","A modern war","A farming tax"],0],
+      ["What is colonization?",["Establishing control over another territory","Trading without contact","Writing a poem","Ending all travel"],0],
+      ["Which event began in 1789 in France?",["French Revolution","Industrial Revolution","First World War","Cold War"],0],
+      ["What was the main purpose of ancient trade routes?",["Exchange goods and ideas","Stop communication","Prevent travel","Remove cities"],0],
+      ["What is an oral history?",["A spoken account of past events","A stone monument only","A tax record only","A modern computer file"],0],
+      ["Why are historical dates important?",["They help establish sequence and context","They prove every story is true","They replace evidence","They show the future"],0]
+    ],
+    hard: [
+      ["What is historiography?",["The study of how history is written and interpreted","The study of stars","The study of rocks","The study of languages only"],0],
+      ["What was one major effect of the Industrial Revolution?",["Mechanized factory production expanded","All cities disappeared","Trade ended globally","Agriculture stopped"],0],
+      ["Which treaty formally ended World War I with Germany?",["Treaty of Versailles","Treaty of Tordesillas","Treaty of Paris 1763","Treaty of Utrecht"],0],
+      ["What is a common feature of primary sources?",["They originate from the period studied","They are always unbiased","They are always complete","They need no context"],0],
+      ["What does 'cause and consequence' mean in history?",["Examining why events occurred and their effects","Memorizing names only","Ignoring evidence","Listing unrelated dates"],0],
+      ["What was the Cold War mainly characterized by?",["Geopolitical rivalry between the US and Soviet Union","Direct war between every country","The end of technology","A conflict in ancient Rome"],0],
+      ["What is historical context?",["Conditions surrounding an event","A person's height","A map's color","A list of spelling rules"],0],
+      ["Why can historical accounts differ?",["Sources, perspectives, and interpretations can differ","The past changes every day","Evidence is never useful","Dates cannot be recorded"],0],
+      ["What was the purpose of the Magna Carta in 1215?",["To place limits on the English king's power","To create the Roman Empire","To end the Renaissance","To invent printing"],0],
+      ["What is an example of continuity in history?",["A practice that persists over time","An event with no effects","A future prediction","A single weather report"],0]
+    ]
+  },
+  geography: {
+    easy: [
+      ["Which is the largest ocean?",["Atlantic","Indian","Pacific","Arctic"],2],
+      ["What is a continent?",["A large continuous landmass","A single city","A mountain only","A type of cloud"],0],
+      ["Which direction does the Sun generally rise from?",["North","South","East","West"],2],
+      ["What does a map scale show?",["The relationship between map and real distance","The weather","Population age","Language"],0],
+      ["Which is a river?",["Mekong","Sahara","Everest","Pacific"],0],
+      ["What is the capital of Cambodia?",["Siem Reap","Phnom Penh","Battambang","Kampot"],1],
+      ["Which is a natural landform?",["Mountain","Road sign","Bridge","Building"],0],
+      ["What is an island?",["Land surrounded by water","A dry desert","A deep valley","A city center"],0],
+      ["What is the Equator?",["An imaginary line around Earth's middle","The North Pole","A mountain range","A river"],0],
+      ["Which is a renewable natural resource?",["Sunlight","Coal","Petroleum","Natural gas"],0]
+    ],
+    medium: [
+      ["Which line divides Earth into Northern and Southern Hemispheres?",["Prime Meridian","Equator","Tropic of Cancer","Arctic Circle"],1],
+      ["What is urbanization?",["Growth of the proportion living in towns and cities","Movement of oceans","Decline of all trade","Formation of volcanoes"],0],
+      ["Which climate is generally hot and wet year-round?",["Tropical rainforest","Polar","Tundra","Highland winter"],0],
+      ["What causes seasons on Earth?",["Axial tilt as Earth orbits the Sun","Distance alone","The Moon's color","Ocean tides"],0],
+      ["What is a delta?",["Land formed by sediment at a river mouth","A mountain peak","A desert dune","An ocean trench"],0],
+      ["Which map shows elevation?",["Topographic map","Political map only","Road map only","Population map only"],0],
+      ["What is migration?",["Movement of people from one place to another","Rainfall only","Mountain formation","Ocean salinity"],0],
+      ["What is deforestation?",["Removal of forests","Planting new trees","Formation of rivers","Growth of coral"],0],
+      ["What does population density measure?",["People per unit of area","Births per school","Rainfall per month","Road length only"],0],
+      ["Which process wears down rocks through exposure?",["Weathering","Condensation","Photosynthesis","Evaporation only"],0]
+    ],
+    hard: [
+      ["What is the rain shadow effect?",["Dry conditions on the leeward side of a mountain","Rain caused only by cities","Ocean water freezing","Wind stopping permanently"],0],
+      ["What is a watershed?",["An area draining into a common outlet","A type of desert","A mountain summit only","A deep ocean trench"],0],
+      ["Which factor commonly influences ocean currents?",["Wind, temperature, salinity, and Earth's rotation","Road traffic","Moonlight color only","Forest age"],0],
+      ["What is the demographic transition model used to describe?",["Changes in birth and death rates as societies develop","Changes in rock types","Ocean tides","Mountain height"],0],
+      ["What is a megacity commonly defined as?",["An urban area with at least 10 million people","Any village","A city with one school","A capital with no residents"],0],
+      ["What is desertification?",["Land degradation in dry regions","A glacier forming","A river delta growing","A forest becoming wetter"],0],
+      ["What is a tectonic plate?",["A large rigid section of Earth's lithosphere","A cloud layer","An ocean current","A type of soil"],0],
+      ["What does GIS stand for?",["Geographic Information System","Global Island Survey","General Internet Service","Geological Ice Scale"],0],
+      ["Why do coastal areas often have milder temperatures?",["The sea heats and cools more slowly than land","They receive no sunlight","Winds never reach them","They have no seasons"],0],
+      ["What is sustainable development?",["Meeting present needs without undermining future generations","Using all resources immediately","Stopping all economic activity","Expanding cities without planning"],0]
+    ]
+  }
+};
+
+// Reuse real question banks for related subjects, while changing the displayed subject.
+banks.biology = banks.science;
+banks.chemistry = {
+  easy: [
+    ["What is the chemical formula for water?",["CO₂","H₂O","NaCl","O₂"],1],
+    ["Which is a state of matter?",["Solid","Color","Sound","Gravity"],0],
+    ["What is the symbol for oxygen?",["Ox","O","Og","On"],1],
+    ["Which particle has a negative charge?",["Proton","Neutron","Electron","Nucleus"],2],
+    ["What is table salt's chemical formula?",["H₂O","CO₂","NaCl","O₂"],2],
+    ["What do we call a substance made of one type of atom?",["Element","Mixture","Solution","Compound"],0],
+    ["Which is a noble gas?",["Helium","Iron","Sodium","Carbon"],0],
+    ["What is a mixture?",["Substances physically combined","One type of atom only","A single pure element always","An electron"],0],
+    ["What is the symbol for carbon?",["Ca","C","Co","Cr"],1],
+    ["What is the center of an atom called?",["Nucleus","Shell","Bond","Solution"],0]
+  ],
+  medium: [
+    ["What is the pH of a neutral solution at room temperature?",["1","5","7","14"],2],
+    ["Which particles are found in the nucleus?",["Electrons only","Protons and neutrons","Electrons and protons","Photons only"],1],
+    ["What is the formula for carbon dioxide?",["CO","CO₂","C₂O","O₂C₂"],1],
+    ["What type of bond involves electron transfer?",["Ionic","Covalent","Metallic only","Hydrogen only"],0],
+    ["What is a catalyst?",["A substance that speeds a reaction without being consumed overall","A type of atom","A product only","A solvent always"],0],
+    ["What does the atomic number represent?",["Number of protons","Number of neutrons only","Number of shells","Mass in grams"],0],
+    ["What is oxidation commonly associated with?",["Loss of electrons","Gain of protons","Loss of nuclei","Gain of neutrons only"],0],
+    ["Which is an acid?",["pH 2 solution","pH 7 solution","pH 12 solution","Pure neutral water only"],0],
+    ["What is the solvent in saltwater?",["Salt","Water","Sodium","Chlorine"],1],
+    ["What is a chemical equation used for?",["Representing a chemical reaction","Showing geography","Measuring speed only","Naming planets"],0]
+  ],
+  hard: [
+    ["What is the ideal gas law?",["PV = nRT","F = ma","E = mc²","V = IR"],0],
+    ["What is the oxidation number of oxygen in most compounds?",["+2","-2","0 always","-1 always"],1],
+    ["What is the conjugate base of H₂CO₃ after losing one proton?",["HCO₃⁻","CO₃²⁻","H₃O⁺","OH⁻"],0],
+    ["What does equilibrium mean in a reversible reaction?",["Forward and reverse reaction rates are equal","All reactants vanish","The reaction stops completely","Temperature is always zero"],0],
+    ["What is molarity?",["Moles of solute per liter of solution","Grams per atom","Liters per electron","Mass per proton"],0],
+    ["What generally happens to reaction rate as temperature rises?",["It often increases","It always becomes zero","It always decreases","It cannot change"],0],
+    ["Which is a strong acid in water?",["HCl","CH₃COOH","H₂O","NH₃"],0],
+    ["What does a reducing agent do?",["Donate electrons to another species","Always accept electrons","Destroy atoms","Only lower temperature"],0],
+    ["What is an isotope?",["Atoms of the same element with different neutron counts","Different elements with equal names","Atoms without protons","A type of bond"],0],
+    ["What is the limiting reactant?",["The reactant used up first, limiting product formed","The product with the largest mass always","A catalyst","A solvent only"],0]
+  ]
+};
+banks.physics = {
+  easy: [
+    ["What is the SI unit of force?",["Newton","Joule","Watt","Volt"],0],
+    ["What force pulls objects toward Earth?",["Gravity","Friction","Sound","Electricity"],0],
+    ["What is the SI unit of time?",["Meter","Second","Kilogram","Ampere"],1],
+    ["What type of energy does a moving object have?",["Kinetic","Chemical","Nuclear","Elastic only"],0],
+    ["Which device measures temperature?",["Thermometer","Barometer","Compass","Ruler"],0],
+    ["What is the SI unit of length?",["Liter","Meter","Gram","Watt"],1],
+    ["What travels fastest in a vacuum?",["Sound","Light","Water waves","Wind"],1],
+    ["What does a battery supply to a circuit?",["Electrical energy","Only sound","Gravity","Mass"],0],
+    ["What is friction?",["A force opposing relative motion","A type of light","A unit of energy","A magnetic pole"],0],
+    ["What is the SI unit of energy?",["Joule","Newton","Meter","Pascal"],0]
+  ],
+  medium: [
+    ["What is the formula for speed?",["Distance ÷ time","Mass × volume","Force ÷ distance","Time ÷ distance"],0],
+    ["What is the SI unit of power?",["Watt","Joule","Newton","Ohm"],0],
+    ["Which law states F = ma?",["Newton's second law","Newton's first law","Ohm's law","Hooke's law"],0],
+    ["What happens to current when resistance increases at constant voltage?",["It decreases","It increases","It doubles always","It becomes infinite"],0],
+    ["What type of lens converges parallel light rays?",["Convex","Concave","Flat mirror","Prism only"],0],
+    ["What is the unit of electrical resistance?",["Ohm","Volt","Ampere","Watt"],0],
+    ["What is momentum?",["Mass × velocity","Force × area","Energy ÷ time","Distance × time"],0],
+    ["What is the approximate acceleration due to gravity on Earth?",["9.8 m/s²","3 m/s²","100 m/s²","0.98 m/s²"],0],
+    ["Which wave needs a medium to travel?",["Sound","Light in vacuum","Radio in vacuum","X-rays in vacuum"],0],
+    ["What is the formula for electrical power?",["P = VI","P = V + I","P = V/I²","P = I/V"],0]
+  ],
+  hard: [
+    ["What is the work-energy theorem?",["Net work equals change in kinetic energy","Work always equals mass","Energy cannot change form","Power equals distance"],0],
+    ["What is the SI unit of electric charge?",["Coulomb","Ampere","Volt","Ohm"],0],
+    ["What does the slope of a velocity-time graph represent?",["Acceleration","Distance","Mass","Power"],0],
+    ["What is the period of a wave?",["Time for one complete cycle","Distance between peaks","Wave speed only","Wave height"],0],
+    ["What is the approximate gravitational constant G?",["6.67 × 10⁻¹¹ N·m²/kg²","9.8 N/kg²","3 × 10⁸ N","1.6 × 10⁻¹⁹ kg"],0],
+    ["In a series circuit, which quantity is the same through each component?",["Current","Voltage","Resistance","Power"],0],
+    ["What is the first law of thermodynamics about?",["Conservation of energy","Conservation of charge only","Gravity","Wave reflection"],0],
+    ["What is the momentum of a 2 kg object moving at 3 m/s?",["6 kg·m/s","5 kg·m/s","1.5 kg·m/s","9 kg·m/s"],0],
+    ["What is refraction?",["Change in wave direction due to a change in speed","Absorption of all light","Creation of mass","Electrical resistance"],0],
+    ["What is the SI unit of frequency?",["Hertz","Joule","Tesla","Pascal"],0]
+  ]
+};
+banks.computer = {
+  easy: [
+    ["What does CPU stand for?",["Central Processing Unit","Computer Personal Utility","Central Program User","Control Power Unit"],0],
+    ["Which device is used to type text?",["Keyboard","Monitor","Speaker","Printer"],0],
+    ["What is software?",["Programs and instructions","Only physical parts","A cable","A power socket"],0],
+    ["Which is an input device?",["Mouse","Monitor","Speaker","Projector"],0],
+    ["What does the internet connect?",["Networks and devices worldwide","Only one computer","Only printers","Only keyboards"],0],
+    ["What is a file?",["A named collection of stored data","A computer screen","A type of mouse","A power cable"],0],
+    ["Which is an operating system?",["Windows","HTML","Wi-Fi","USB"],0],
+    ["What does RAM help a computer do?",["Temporarily hold data in use","Print on paper","Connect to a wall","Store electricity forever"],0],
+    ["Which is a web browser?",["Chrome","Excel","Calculator","Paint only"],0],
+    ["What is a password used for?",["Protecting access to an account","Increasing screen size","Charging a laptop","Cleaning a keyboard"],0]
+  ],
+  medium: [
+    ["What is an algorithm?",["A sequence of steps to solve a problem","A type of monitor","A storage cable","A computer virus only"],0],
+    ["What does HTML structure?",["Web page content","Computer hardware","Internet cables","Battery cells"],0],
+    ["What is a variable in programming?",["A named place to store a value","A type of keyboard","A browser tab","A network cable"],0],
+    ["What does a loop do in programming?",["Repeats instructions","Deletes every file","Turns off the screen","Only stores images"],0],
+    ["What does an IP address identify?",["A device or network interface on a network","A person's password","A file format","A keyboard key"],0],
+    ["What is a database?",["An organized collection of data","A graphics card","A power supply","A programming error"],0],
+    ["What is phishing?",["A deceptive attempt to steal information","A safe backup method","A coding language","A type of monitor"],0],
+    ["What does CSS control on a webpage?",["Presentation and styling","Electrical current","Database passwords only","The CPU temperature"],0],
+    ["What is a Boolean value?",["True or false","Any image","A file name only","A keyboard layout"],0],
+    ["What is debugging?",["Finding and fixing errors","Designing a chair","Compressing every file","Turning off Wi-Fi"],0]
+  ],
+  hard: [
+    ["What is time complexity used to describe?",["How algorithm resource use grows with input size","A computer's clock time only","The age of a file","Screen refresh rate only"],0],
+    ["What is recursion?",["A function calling itself","A monitor refresh","A network cable","A file extension"],0],
+    ["Which structure follows FIFO?",["Queue","Stack","Tree","Graph"],0],
+    ["What is encryption?",["Transforming data to protect its contents","Deleting all data","Making files larger only","Changing screen colors"],0],
+    ["What does an API define?",["How software components communicate","How a keyboard is manufactured","A battery type","A screen resolution"],0],
+    ["What is a hash function commonly used for?",["Mapping input data to a fixed-size digest","Reversing every password automatically","Increasing CPU size","Creating a monitor"],0],
+    ["What does SQL query?",["Relational databases","Image pixels only","Keyboard firmware only","Audio volume"],0],
+    ["What is version control used for?",["Tracking changes to files over time","Cooling a CPU","Charging devices","Measuring screen brightness"],0],
+    ["What is a race condition?",["A result depending on timing of concurrent operations","A computer running a game","A type of printer","A slow internet plan"],0],
+    ["What is the purpose of unit testing?",["Testing small pieces of software independently","Testing only the monitor","Checking room temperature","Deleting code"],0]
+  ]
+};
+
+const subjects = {
+  math:"Mathematics", science:"Science", english:"English", history:"History",
+  geography:"Geography", biology:"Biology", chemistry:"Chemistry", physics:"Physics",
+  computer:"Computer Science"
+};
+
+function t(key) {
+  return translations[lang][key] || translations.en[key] || key;
+}
+
+function setLanguage(value) {
+  lang = value;
+  document.documentElement.lang = lang;
+  try { localStorage.setItem("nachoai-language", lang); } catch (_) {}
+  document.querySelectorAll("[data-i]").forEach(el => {
+    el.textContent = t(el.dataset.i);
+  });
+  if (questions.length && !$("quizCard").classList.contains("hidden")) {
+    renderQuestion();
+  } else if (!$("resultCard").classList.contains("hidden")) {
+    renderResult();
+  }
+}
+
+function setTheme(dark) {
+  document.body.classList.toggle("dark", dark);
+  $("themeBtn").textContent = dark ? "☀️" : "🌙";
+  try { localStorage.setItem("nachoai-theme", dark ? "dark" : "light"); } catch (_) {}
+}
+
+function shuffle(arr) {
+  const copy = arr.slice();
+  for (let i = copy.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [copy[i], copy[j]] = [copy[j], copy[i]];
+  }
+  return copy;
+}
+
+function difficultyForGrade(grade) {
+  if (grade <= 4) return "easy";
+  if (grade <= 8) return "medium";
+  return "hard";
+}
+
+function localizedQuestion(q) {
+  if (lang === "en") return q;
+  // The banks are authored in English; avoid pretending untranslated questions are translated.
+  // A translated question bank can be added here later without affecting quiz logic.
+  return q;
+}
+
+function makeQuiz() {
+  const subject = $("subject").value;
+  const grade = Number($("grade").value);
+  const count = Number($("count").value);
+  const level = difficultyForGrade(grade);
+  const bank = banks[subject] && banks[subject][level];
+
+  if (!bank || bank.length === 0) {
+    alert(t("noQuestions"));
+    return;
+  }
+
+  // Every bank has ten distinct questions; shuffle question order and answer order.
+  questions = shuffle(bank).slice(0, Math.min(count, bank.length)).map(q => {
+    const options = q[1].map((text, i) => ({text, correct: i === q[2]}));
+    const mixed = shuffle(options);
+    return {
+      question: localizedQuestion(q[0]),
+      options: mixed.map(o => o.text),
+      answer: mixed.findIndex(o => o.correct)
+    };
+  });
+
+  index = 0;
+  score = 0;
+  answered = false;
+  $("settings").classList.add("hidden");
+  $("resultCard").classList.add("hidden");
+  $("quizCard").classList.remove("hidden");
+  renderQuestion();
+}
+
+function renderQuestion() {
+  if (!questions.length || index >= questions.length) return;
+  const q = questions[index];
+  $("questionCount").textContent = `${t("question")} ${index + 1} / ${questions.length}`;
+  $("scoreLabel").textContent = `${t("score")}: ${score}`;
+  $("question").textContent = q.question;
+  $("options").innerHTML = "";
+  $("feedback").textContent = "";
+  $("feedback").className = "";
+  $("nextBtn").classList.add("hidden");
+  answered = false;
+
+  q.options.forEach((option, i) => {
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "option";
+    btn.textContent = `${String.fromCharCode(65 + i)}. ${option}`;
+    btn.addEventListener("click", () => chooseAnswer(i));
+    $("options").appendChild(btn);
+  });
+}
+
+function chooseAnswer(choice) {
+  if (answered) return;
+  answered = true;
+  const q = questions[index];
+  const buttons = [...$("options").querySelectorAll("button")];
+  buttons.forEach((btn, i) => {
+    btn.disabled = true;
+    if (i === q.answer) btn.classList.add("correct");
+    else if (i === choice) btn.classList.add("wrong");
+  });
+
+  if (choice === q.answer) {
+    score++;
+    $("feedback").textContent = t("correct");
+    $("feedback").className = "correct-text";
+  } else {
+    $("feedback").textContent = `${t("wrong")} ${q.options[q.answer]}`;
+    $("feedback").className = "wrong-text";
+  }
+  $("scoreLabel").textContent = `${t("score")}: ${score}`;
+  $("nextBtn").textContent = index === questions.length - 1 ? t("finished") : t("next");
+  $("nextBtn").classList.remove("hidden");
+}
+
+function nextQuestion() {
+  if (!answered) return;
+  index++;
+  if (index >= questions.length) {
+    $("quizCard").classList.add("hidden");
+    $("resultCard").classList.remove("hidden");
+    renderResult();
+  } else {
+    renderQuestion();
+  }
+}
+
+function renderResult() {
+  const percent = questions.length ? Math.round(score / questions.length * 100) : 0;
+  $("resultScore").textContent = `${score} / ${questions.length} (${percent}%)`;
+  $("resultMessage").textContent = percent === 100 ? t("perfect") :
+    percent >= 60 ? t("good") : t("tryAgain");
+  $("resultDetails").textContent =
+    `${subjects[$("subject").value]} · Grade ${$("grade").value} · ${questions.length} ${t("count").toLowerCase()}`;
+}
+
+function endQuiz() {
+  $("quizCard").classList.add("hidden");
+  $("resultCard").classList.remove("hidden");
+  renderResult();
+}
+
+function backToSettings() {
+  $("resultCard").classList.add("hidden");
+  $("quizCard").classList.add("hidden");
+  $("settings").classList.remove("hidden");
+}
+
+$("startBtn").addEventListener("click", makeQuiz);
+$("nextBtn").addEventListener("click", nextQuestion);
+$("quitBtn").addEventListener("click", endQuiz);
+$("againBtn").addEventListener("click", makeQuiz);
+$("settingsBtn").addEventListener("click", backToSettings);
+$("language").addEventListener("change", e => setLanguage(e.target.value));
+$("themeBtn").addEventListener("click", () =>
+  setTheme(!document.body.classList.contains("dark"))
+);
+
+try {
+  const savedLang = localStorage.getItem("nachoai-language");
+  if (savedLang && translations[savedLang]) $("language").value = savedLang;
+} catch (_) {}
+try {
+  setTheme(localStorage.getItem("nachoai-theme") === "dark");
+} catch (_) {}
+setLanguage($("language").value);
+})();
+</script>
+</body>
+</html>
