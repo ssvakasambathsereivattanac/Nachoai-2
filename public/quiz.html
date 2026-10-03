@@ -1,0 +1,102 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Practice Quiz | NachoAI</title>
+<link rel="stylesheet" href="css/quiz.css">
+</head>
+<body>
+<nav>
+  <div class="brand">🧀 NachoAI</div>
+  <div class="navlinks">
+    <a href="index.html" data-i="home">Home</a>
+    <a href="dashboard.html" data-i="dashboard">Dashboard</a>
+    <a href="tutor.html" data-i="tutor">AI Tutor</a>
+    <a href="quiz.html" data-i="quiz">Practice Quiz</a>
+    <a href="progress.html" data-i="progress">Progress</a>
+  </div>
+  <div>
+    <select id="language" aria-label="Language">
+      <option value="en">🇬🇧 English</option>
+      <option value="km">🇰🇭 ខ្មែរ</option>
+      <option value="fr">🇫🇷 Français</option>
+    </select>
+    <button id="themeBtn" type="button" aria-label="Toggle dark mode">🌙</button>
+  </div>
+</nav>
+
+<main>
+  <h1 data-i="heading">Practice Quiz 🎯</h1>
+  <p class="subtitle" data-i="subtitle">Test what you've learned. Each quiz uses a fresh mix of questions.</p>
+
+  <section class="settings" id="settings">
+    <label class="field">
+      <span data-i="grade">Grade</span>
+      <select id="grade">
+        <option value="1">Grade 1</option><option value="2">Grade 2</option>
+        <option value="3">Grade 3</option><option value="4">Grade 4</option>
+        <option value="5">Grade 5</option><option value="6">Grade 6</option>
+        <option value="7">Grade 7</option><option value="8" selected>Grade 8</option>
+        <option value="9">Grade 9</option><option value="10">Grade 10</option>
+        <option value="11">Grade 11</option><option value="12">Grade 12</option>
+      </select>
+    </label>
+    <label class="field">
+      <span data-i="subject">Subject</span>
+      <select id="subject">
+        <option value="math">Mathematics</option>
+        <option value="science">Science</option>
+        <option value="english">English</option>
+        <option value="history">History</option>
+        <option value="geography">Geography</option>
+        <option value="biology">Biology</option>
+        <option value="chemistry">Chemistry</option>
+        <option value="physics">Physics</option>
+        <option value="computer">Computer Science</option>
+      </select>
+    </label>
+    <label class="field">
+      <span data-i="count">Questions</span>
+      <select id="count">
+        <option value="5">5</option>
+        <option value="10" selected>10</option>
+        <option value="15">15</option>
+      </select>
+    </label>
+    <div class="field" style="justify-content:end">
+      <button class="primary" id="startBtn" type="button" data-i="start">Generate Quiz 🚀</button>
+    </div>
+  </section>
+
+  <section class="quiz-card hidden" id="quizCard">
+    <div class="topline">
+      <span id="questionCount"></span>
+      <span id="scoreLabel"></span>
+    </div>
+    <div id="question"></div>
+    <div id="options"></div>
+    <div id="feedback" aria-live="polite"></div>
+    <div class="actions">
+      <button class="primary hidden" id="nextBtn" type="button" data-i="next">Next question →</button>
+      <button id="quitBtn" type="button" data-i="quit">End quiz</button>
+    </div>
+  </section>
+
+  <section class="result-card hidden" id="resultCard" aria-live="polite">
+    <h2 data-i="finished">Quiz complete! 🎉</h2>
+    <div id="resultScore"></div>
+    <p id="resultMessage"></p>
+    <p class="small" id="resultDetails"></p>
+    <div class="actions">
+      <button class="primary" id="againBtn" type="button" data-i="again">Generate another quiz 🔄</button>
+      <button id="settingsBtn" type="button" data-i="change">Change settings</button>
+    </div>
+  </section>
+</main>
+<footer>🧀 NachoAI — <span data-i="footer">Learn smarter. Understand better.</span></footer>
+
+<script src="js/quiz.js"></script>
+</body>
+</html>

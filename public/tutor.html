@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NachoAI Tutor</title>
+
+<link rel="stylesheet" href="css/tutor.css">
+</head>
+
+<body>
+
+<nav class="navbar">
+
+    <div class="logo">🧀 NachoAI</div>
+
+    <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="dashboard.html">Dashboard</a>
+        <a href="tutor.html">AI Tutor</a>
+        <a href="quiz.html">Practice Quiz</a>
+        <a href="progress.html">Progress</a>
+    </div>
+
+    <div class="nav-controls">
+
+        <select id="language">
+            <option value="en">🇬🇧 English</option>
+            <option value="km">🇰🇭 Khmer</option>
+            <option value="fr">🇫🇷 Français</option>
+        </select>
+
+        <button class="theme-btn" id="themeBtn">🌙</button>
+
+    </div>
+
+</nav>
+
+
+<div class="layout">
+
+    <aside class="sidebar">
+
+        <button class="new-chat" id="newChat">
+            ＋ New Chat
+        </button>
+
+        <div class="chat-title">
+            Conversation History
+        </div>
+
+        <div class="chat-list" id="chatList"></div>
+
+    </aside>
+
+
+    <main class="main">
+
+        <div class="topbar">
+
+            <label>Grade</label>
+
+            <select id="grade">
+                <option value="1">Grade 1</option>
+                <option value="2">Grade 2</option>
+                <option value="3">Grade 3</option>
+                <option value="4">Grade 4</option>
+                <option value="5">Grade 5</option>
+                <option value="6">Grade 6</option>
+                <option value="7">Grade 7</option>
+                <option value="8" selected>Grade 8</option>
+                <option value="9">Grade 9</option>
+                <option value="10">Grade 10</option>
+                <option value="11">Grade 11</option>
+                <option value="12">Grade 12</option>
+            </select>
+
+            <label>Subject</label>
+
+            <select id="subject">
+                <option>General</option>
+                <option>Mathematics</option>
+                <option>Science</option>
+                <option>English</option>
+                <option>History</option>
+                <option>Geography</option>
+                <option>Biology</option>
+                <option>Chemistry</option>
+                <option>Physics</option>
+                <option>Computer Science</option>
+                <option>Economics</option>
+                <option>Business</option>
+                <option>Art</option>
+                <option>Music</option>
+            </select>
+
+        </div>
+
+
+        <section class="messages" id="messages">
+
+            <div class="welcome" id="welcome">
+
+                <div class="nacho">🧀</div>
+
+                <h1>What do you want to learn?</h1>
+
+                <p>
+                    I'm NachoAI. Ask me anything about your subject,
+                    send your notes, or attach a worksheet and I'll help
+                    you understand it.
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <div class="composer-area">
+
+            <div class="suggestions">
+
+                <button class="suggestion">
+                    Explain this topic simply
+                </button>
+
+                <button class="suggestion">
+                    Give me an example
+                </button>
+
+                <button class="suggestion">
+                    Help me understand this
+                </button>
+
+            </div>
+
+
+            <div class="file-preview" id="filePreview"></div>
+
+
+            <form class="composer" id="composer">
+
+                <input
+                    type="file"
+                    id="fileInput"
+                    hidden
+                    multiple
+                    accept=".pdf,.txt,.md,.csv,.json,.xml,.html,.htm,image/png,image/jpeg,image/webp"
+                >
+
+                <button
+                    type="button"
+                    class="attach-btn"
+                    id="attachBtn"
+                    title="Attach a file"
+                >
+                    📎
+                </button>
+
+                <textarea
+                    id="messageInput"
+                    placeholder="Ask NachoAI anything..."
+                    rows="1"
+                ></textarea>
+
+                <button
+                    type="submit"
+                    class="send-btn"
+                    id="sendBtn"
+                >
+                    ➤
+                </button>
+
+            </form>
+
+        </div>
+
+    </main>
+
+</div>
+
+
+<script src="js/tutor.js"></script>
+
+</body>
+</html>
