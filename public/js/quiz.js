@@ -372,7 +372,7 @@ function t(key) {
 function setLanguage(value) {
   lang = value;
   document.documentElement.lang = lang;
-  try { localStorage.setItem("nachoai-language", lang); } catch (_) {}
+  try { localStorage.setItem("aitutorLanguage", lang); } catch (_) {}
   document.querySelectorAll("[data-i]").forEach(el => {
     el.textContent = t(el.dataset.i);
   });
@@ -386,7 +386,7 @@ function setLanguage(value) {
 function setTheme(dark) {
   document.body.classList.toggle("dark", dark);
   $("themeBtn").textContent = dark ? "☀️" : "🌙";
-  try { localStorage.setItem("nachoai-theme", dark ? "dark" : "light"); } catch (_) {}
+  try { localStorage.setItem("nachoaiTheme", dark ? "dark" : "light"); } catch (_) {}
 }
 
 function shuffle(arr) {
@@ -514,6 +514,15 @@ function endQuiz() {
   $("quizCard").classList.add("hidden");
   $("resultCard").classList.remove("hidden");
   renderResult();
+
+  if (questions.length && window.NachoProgress) {
+    window.NachoProgress.recordQuizResult({
+      subject: $("subject").value,
+      grade: $("grade").value,
+      score,
+      total: questions.length,
+    });
+  }
 }
 
 function backToSettings() {
@@ -533,11 +542,11 @@ $("themeBtn").addEventListener("click", () =>
 );
 
 try {
-  const savedLang = localStorage.getItem("nachoai-language");
+  const savedLang = localStorage.getItem("aitutorLanguage");
   if (savedLang && translations[savedLang]) $("language").value = savedLang;
 } catch (_) {}
 try {
-  setTheme(localStorage.getItem("nachoai-theme") === "dark");
+  setTheme(localStorage.getItem("nachoaiTheme") === "dark");
 } catch (_) {}
 setLanguage($("language").value);
 })();

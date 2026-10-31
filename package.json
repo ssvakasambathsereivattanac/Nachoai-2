@@ -6,6 +6,7 @@
   "scripts": {
     "start": "node server/index.js",
     "dev": "node --watch server/index.js",
+    "test": "node --test server/test/*.test.js",
     "lint": "eslint .",
     "format": "prettier --write ."
   },
@@ -23,6 +24,7 @@
   },
   "devDependencies": {
     "eslint": "^9.0.0",
+    "globals": "^17.13.0",
     "prettier": "^3.3.0"
   }
 }

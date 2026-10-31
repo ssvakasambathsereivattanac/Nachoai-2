@@ -96,8 +96,8 @@
         <div class="stat-card">
             <span>📚</span>
             <div>
-                <p>Topics Studied</p>
-                <h2>24</h2>
+                <p>Subjects Practiced</p>
+                <h2 id="statSubjects">0</h2>
             </div>
         </div>
 
@@ -105,7 +105,7 @@
             <span>📝</span>
             <div>
                 <p>Quizzes Completed</p>
-                <h2>12</h2>
+                <h2 id="statQuizzes">0</h2>
             </div>
         </div>
 
@@ -113,7 +113,7 @@
             <span>🎯</span>
             <div>
                 <p>Average Score</p>
-                <h2>78%</h2>
+                <h2 id="statAverage">0%</h2>
             </div>
         </div>
 
@@ -121,7 +121,7 @@
             <span>🔥</span>
             <div>
                 <p>Learning Streak</p>
-                <h2>7 Days</h2>
+                <h2 id="statStreak">0 Days</h2>
             </div>
         </div>
 
@@ -147,93 +147,11 @@
             </div>
 
 
-            <div class="weak-topic">
-
-                <div class="topic-info">
-
-                    <span class="topic-icon">📐</span>
-
-                    <div>
-                        <h3>Algebra</h3>
-                        <p>Mathematics</p>
-                    </div>
-
-                </div>
-
-                <div class="topic-score">
-
-                    <strong>40%</strong>
-
-                    <div class="progress-bar">
-                        <div style="width: 40%"></div>
-                    </div>
-
-                </div>
-
-                <a href="tutor.html?topic=algebra" class="small-btn">
-                    Learn
-                </a>
-
-            </div>
-
-
-            <div class="weak-topic">
-
-                <div class="topic-info">
-
-                    <span class="topic-icon">📖</span>
-
-                    <div>
-                        <h3>Grammar</h3>
-                        <p>English</p>
-                    </div>
-
-                </div>
-
-                <div class="topic-score">
-
-                    <strong>55%</strong>
-
-                    <div class="progress-bar">
-                        <div style="width: 55%"></div>
-                    </div>
-
-                </div>
-
-                <a href="tutor.html?topic=grammar" class="small-btn">
-                    Learn
-                </a>
-
-            </div>
-
-
-            <div class="weak-topic">
-
-                <div class="topic-info">
-
-                    <span class="topic-icon">🧪</span>
-
-                    <div>
-                        <h3>Chemical Reactions</h3>
-                        <p>Science</p>
-                    </div>
-
-                </div>
-
-                <div class="topic-score">
-
-                    <strong>61%</strong>
-
-                    <div class="progress-bar">
-                        <div style="width: 61%"></div>
-                    </div>
-
-                </div>
-
-                <a href="tutor.html?topic=chemistry" class="small-btn">
-                    Learn
-                </a>
-
+            <div id="weakAreasList">
+                <!-- Filled by js/dashboard.js from quizzes you've actually taken. -->
+                <p class="empty-state">
+                    Take a practice quiz to see which topics need more work.
+                </p>
             </div>
 
         </div>
@@ -369,6 +287,8 @@
 
 <!-- JavaScript -->
 <script src="js/language.js"></script>
+<script src="js/progress-store.js"></script>
+<script src="js/dashboard.js"></script>
 
 </body>
 </html>
