@@ -1207,6 +1207,12 @@ footer > p {
     color: #737c8d;
 }
 
+.empty-state {
+    color: #737c8d;
+    padding: 20px;
+    text-align: center;
+}
+
 .recommendation-card {
     max-width: 1200px;
     margin: 35px auto 60px;

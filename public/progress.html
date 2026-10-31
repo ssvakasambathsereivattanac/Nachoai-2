@@ -6,17 +6,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-```
 <title>Progress - NachoAI</title>
 
 <link rel="stylesheet" href="css/style.css">
-```
 
 </head>
 
 <body>
 
-```
 <!-- NAVBAR -->
 <nav class="navbar">
 
@@ -119,115 +116,15 @@
         📚 Subject Progress
     </h2>
 
-    <div class="subject-grid">
+    <div class="subject-grid" id="subjectGrid">
 
-        <!-- MATH -->
-        <div class="subject-card">
+        <!-- Filled by js/progress.js from quizzes you've actually taken. -->
+        <div class="empty-progress">
 
-            <div class="subject-title">
-                <span>➗</span>
+            <span>🎉</span>
 
-                <h3 data-i18n="math">
-                    Math
-                </h3>
-            </div>
-
-            <div class="progress-bar">
-                <div
-                    id="mathProgress"
-                    class="progress-fill">
-                </div>
-            </div>
-
-            <p>
-                <span id="mathPercent">0%</span>
-                <span data-i18n="completed">
-                    completed
-                </span>
-            </p>
-
-        </div>
-
-
-        <!-- SCIENCE -->
-        <div class="subject-card">
-
-            <div class="subject-title">
-                <span>🔬</span>
-
-                <h3 data-i18n="science">
-                    Science
-                </h3>
-            </div>
-
-            <div class="progress-bar">
-                <div
-                    id="scienceProgress"
-                    class="progress-fill">
-                </div>
-            </div>
-
-            <p>
-                <span id="sciencePercent">0%</span>
-                <span data-i18n="completed">
-                    completed
-                </span>
-            </p>
-
-        </div>
-
-
-        <!-- ENGLISH -->
-        <div class="subject-card">
-
-            <div class="subject-title">
-                <span>📖</span>
-
-                <h3 data-i18n="english">
-                    English
-                </h3>
-            </div>
-
-            <div class="progress-bar">
-                <div
-                    id="englishProgress"
-                    class="progress-fill">
-                </div>
-            </div>
-
-            <p>
-                <span id="englishPercent">0%</span>
-                <span data-i18n="completed">
-                    completed
-                </span>
-            </p>
-
-        </div>
-
-
-        <!-- HISTORY -->
-        <div class="subject-card">
-
-            <div class="subject-title">
-                <span>🏛️</span>
-
-                <h3 data-i18n="history">
-                    History
-                </h3>
-            </div>
-
-            <div class="progress-bar">
-                <div
-                    id="historyProgress"
-                    class="progress-fill">
-                </div>
-            </div>
-
-            <p>
-                <span id="historyPercent">0%</span>
-                <span data-i18n="completed">
-                    completed
-                </span>
+            <p data-i18n="noSubjectProgress">
+                Take a practice quiz to see your subject progress here.
             </p>
 
         </div>
@@ -297,8 +194,8 @@
 
 
 <!-- PROGRESS SYSTEM -->
+<script src="js/progress-store.js"></script>
 <script src="js/progress.js"></script>
-```
 
 </body>
 </html>
