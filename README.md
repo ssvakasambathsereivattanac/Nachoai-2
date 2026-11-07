@@ -22,6 +22,7 @@ Use `npm run dev` for auto-reload.
 
 ## Project structure
 ```
+api/index.js       Vercel serverless entry point (re-exports server/app.js)
 server/            Express app
   app.js           Express app (exported, no listener - used by index.js and tests)
   index.js         Starts the HTTP server and handles graceful shutdown
@@ -73,6 +74,26 @@ which is not persisted across restarts unless you mount a volume:
 docker run -p 3000:3000 -e GROQ_API_KEY=your-key -v nachoai-data:/app/server/data nachoai
 ```
 
+**Vercel:**
+```bash
+npx vercel          # first deploy, links the project
+npx vercel --prod   # subsequent production deploys
+```
+`vercel.json` routes `/api/*` to `api/index.js`, which exports the same
+Express app used everywhere else; everything in `public/` is served as
+static files automatically. Set `GROQ_API_KEY` as an environment variable
+in the Vercel dashboard (Project → Settings → Environment Variables) or via
+`npx vercel env add GROQ_API_KEY` - never in a file that ships to the
+browser. Two things behave differently than a normal Node host because
+Vercel functions are serverless:
+- **Chat history is not durable.** It's written to `/tmp`, which isn't
+  shared or guaranteed to persist between invocations, so a saved chat can
+  simply be gone on the next request. Fine for trying the tutor out, not
+  for relying on saved history. Swap `server/services/storage.js` for a
+  real database (Vercel Postgres/KV, etc.) if you need that.
+- **Long replies can be cut off** by the function's execution time limit
+  (`vercel.json` requests 60s; the Hobby plan may cap this lower).
+
 **Required environment variables in production:** `GROQ_API_KEY` (see
 `.env.example` for the rest, all optional with sane defaults).
 
@@ -80,7 +101,8 @@ docker run -p 3000:3000 -e GROQ_API_KEY=your-key -v nachoai-data:/app/server/dat
 - No authentication - `/api/chats` is a single shared history, and quiz
   progress lives in each visitor's browser only.
 - Chat history is a flat JSON file, fine for one instance/demo use, not for
-  horizontal scaling or multiple concurrent writers at real load.
+  horizontal scaling or multiple concurrent writers at real load; on Vercel
+  specifically it isn't durable at all (see Deployment above).
 
 ## Security
 Never commit `.env`. Rotate any key that has been committed.

@@ -5,7 +5,7 @@ module.exports = [
   js.configs.recommended,
   {
     // Server code: proper CommonJS modules, so dead code is worth flagging.
-    files: ["server/**/*.js", "eslint.config.js"],
+    files: ["server/**/*.js", "api/**/*.js", "eslint.config.js"],
     languageOptions: {
       sourceType: "commonjs",
       ecmaVersion: 2022,
