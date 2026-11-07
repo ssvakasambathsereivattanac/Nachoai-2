@@ -5,5 +5,4 @@ server/test
 .git
 .github
 *.md
-Dockerfile
 .dockerignore

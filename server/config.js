@@ -3,10 +3,11 @@ const fs = require("fs");
 const os = require("os");
 const path = require("path");
 
-// Vercel (and most serverless platforms) only guarantee a writable /tmp,
-// and it isn't shared or persistent across invocations - so chat history
-// is best-effort there, not durable. Everywhere else, keep it next to the
-// server code like before.
+// Vercel (both serverless functions and Container deployments appear to
+// run on a read-only root filesystem outside of /tmp) only guarantees a
+// writable /tmp, and it isn't persistent across container restarts/
+// redeploys - so chat history is best-effort there, not durable.
+// Everywhere else, keep it next to the server code like before.
 const isServerless = Boolean(process.env.VERCEL);
 const dataDir = isServerless
   ? path.join(os.tmpdir(), "nachoai-data")
