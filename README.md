@@ -22,7 +22,6 @@ Use `npm run dev` for auto-reload.
 
 ## Project structure
 ```
-api/index.js       Vercel serverless entry point (re-exports server/app.js)
 server/            Express app
   app.js           Express app (exported, no listener - used by index.js and tests)
   index.js         Starts the HTTP server and handles graceful shutdown
@@ -74,25 +73,24 @@ which is not persisted across restarts unless you mount a volume:
 docker run -p 3000:3000 -e GROQ_API_KEY=your-key -v nachoai-data:/app/server/data nachoai
 ```
 
-**Vercel:**
+**Vercel (Container deployment):**
 ```bash
 npx vercel          # first deploy, links the project
 npx vercel --prod   # subsequent production deploys
 ```
-`vercel.json` routes `/api/*` to `api/index.js`, which exports the same
-Express app used everywhere else; everything in `public/` is served as
-static files automatically. Set `GROQ_API_KEY` as an environment variable
-in the Vercel dashboard (Project → Settings → Environment Variables) or via
+This project is deployed on Vercel as a **Container** (Vercel builds and
+runs the root `Dockerfile` directly), not as serverless functions - so it
+behaves like a normal long-lived Node process, same as the Docker
+instructions above. Set `GROQ_API_KEY` as an environment variable in the
+Vercel dashboard (Project → Settings → Environment Variables) or via
 `npx vercel env add GROQ_API_KEY` - never in a file that ships to the
-browser. Two things behave differently than a normal Node host because
-Vercel functions are serverless:
-- **Chat history is not durable.** It's written to `/tmp`, which isn't
-  shared or guaranteed to persist between invocations, so a saved chat can
-  simply be gone on the next request. Fine for trying the tutor out, not
-  for relying on saved history. Swap `server/services/storage.js` for a
-  real database (Vercel Postgres/KV, etc.) if you need that.
-- **Long replies can be cut off** by the function's execution time limit
-  (`vercel.json` requests 60s; the Hobby plan may cap this lower).
+browser.
+
+Chat history is still only as durable as the Docker/VPS case above: it
+lives inside the running container's filesystem, so it survives for as
+long as that container instance does, but is not guaranteed to survive a
+redeploy or restart. Swap `server/services/storage.js` for a real database
+if you need chat history to persist reliably.
 
 **Required environment variables in production:** `GROQ_API_KEY` (see
 `.env.example` for the rest, all optional with sane defaults).

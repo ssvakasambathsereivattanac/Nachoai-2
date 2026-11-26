@@ -1,4 +1,11 @@
-const pdfParse = require("pdf-parse");
+// Import the library's actual implementation directly, not pdf-parse's
+// index.js: that file checks `!module.parent` to guess whether it's being
+// run standalone, and serverless bundlers (Vercel, webpack, esbuild) often
+// make that check come out true even when required normally - triggering
+// its leftover debug code, which tries to read a test PDF that doesn't
+// exist in the deployed bundle and crashes the whole function on cold
+// start with an ENOENT, before any request is even handled.
+const pdfParse = require("pdf-parse/lib/pdf-parse.js");
 const { maxAttachmentChars } = require("../config");
 
 function parseDataUrl(dataUrl) {
