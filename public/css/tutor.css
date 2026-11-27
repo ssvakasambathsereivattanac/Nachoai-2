@@ -646,3 +646,7 @@ body.dark .file-item {
         padding: 7px 9px;
     }
 }
+/* Remove Grade and Subject selectors from AI Tutor */
+.topbar {
+    display: none !important;
+}
