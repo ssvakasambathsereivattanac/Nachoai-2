@@ -25,7 +25,7 @@ module.exports = {
   // https://console.groq.com/docs/deprecations and /docs/vision. Check
   // that page if either of these is ever retired too.
   model: process.env.GROQ_MODEL || "openai/gpt-oss-120b",
-  visionModel: process.env.GROQ_VISION_MODEL || "qwen/qwen3.6-27b",
+  visionModel: process.env.GROQ_VISION_MODEL || "qwen/qwen3.8-27b",
   publicDir: path.join(__dirname, "..", "public"),
   chatsFile: path.join(dataDir, "chats.json"),
   maxAttachmentChars: 20000,
